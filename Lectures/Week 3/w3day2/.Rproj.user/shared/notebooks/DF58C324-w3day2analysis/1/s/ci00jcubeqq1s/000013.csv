@@ -1,0 +1,5 @@
+"0",""
+"0","# mutate to create a goodfood variable"
+"0","ds %>%"
+"0","  mutate(good = happy+joy,"
+"0","         isPos = good>9)"

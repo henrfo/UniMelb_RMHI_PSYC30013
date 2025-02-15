@@ -1,0 +1,18 @@
+"0","# We'll begin by loading up the libraries and data we need, as always."
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0",""
+"0","# loading the libraries"
+"0","library(tidyverse)"
+"0","library(here)"
+"0",""
+"0","# loading the data"
+"0","loc <- here(""gladlysurvey3.csv"")"
+"0","gdata <- read_csv(file=loc)"
+"2","[1mRows: [22m[34m35[39m [1mColumns: [22m[34m9[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (5): name, species, ageCat, food, gender
+[32mdbl[39m (4): carrot, cake, mud, age"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."

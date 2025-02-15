@@ -1,0 +1,3 @@
+"0","# remove two columns - two ways to do this"
+"0","ds %>%"
+"0","  select(person,time,happy,joy)"

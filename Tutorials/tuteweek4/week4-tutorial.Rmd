@@ -1,0 +1,250 @@
+---
+title: "Week 4 Tutorial Exercises"
+author: "Andrew Perfors"
+output: word_document
+---
+
+**NOTE: In this tutorial and onwards, I'm going to label optional things to do by adding a ~ mark to them. That will help you prioritise.**
+
+Having now analysed the data from LFB and Foxy that goes back several years, it's evident that something weird is going on. People's responses to the survey question (about how likely they would be to eat any given food right now) seem to indicate that in the last few years, they are more likely to eat all of the foods -- and there are fewer and fewer responses below 6 on a 10-point scale, even for foods that aren't typical for the species (e.g., bears and carrots). However, it's pretty evident that people understand the question, because their answers to the same question about non-foods like dirt and mud are still low.
+
+So, what's going on? Everyone has gotten together to try to figure this out and form a plan.
+
+"I knew there was a problem," says Bunny. "There's just less food than there used to be and we're slowly starving."
+
+"Maybe," says Gladly. "But why would there be less food?"
+
+"Maybe there isn't less food, but there are more of us?" suggests Flopsy. "So, less food per person."
+
+"Hmm, could be," says Shadow. "In the dataset we looked at, there were more people in 2020 than in 2016."
+
+"There might indeed be more people," says LFB. "But you can't know that from the dataset. If anybody died between 2016 and 2020 I took them out of it. It was just too sad to see their name there, and I didn't think anybody would be needing the data for something like this."
+
+"I have another idea," says Doggie. "It might be that our food is getting *stolen*."
+
+"But who could be stealing our food?" Bunny is very worried at the thought. "I thought we were all friends."
+
+"We *are* all friends, silly," reassured Doggie. "I was thinking... the people in Otherland?"
+
+(Otherland, you'll recall, is the neighbouring country. Nobody knows much about it because everyone is afraid to go there, but it is reputed to be full of scary animals who constantly fight each other.)
+
+Everyone falls silent at this thought. 
+
+"But... if it's the Others, then what do we do?" Bunny finally asks in a small voice.
+
+"Let's not jump to conclusions," says Flopsy. "Why do you think it might be the Others? Do we have any evidence for this at all?"
+
+"I don't see why it would be them," Foxy says softly, so softly her friends can hardly hear her. "*I'm* not from Bunnyland and I'm not bad just because of that. They're not necessarily bad just because we don't know them."
+
+Shadow shrugs. "You're right, Foxy, but you're *you*. We know you. We don't know them, and there are so many stories of things they've done..."
+
+Bunny shivers in fear. "They're mostly predators, aren't they? They eat animals like us."
+
+Foxy frowns sadly but says nothing.
+
+"Also, what else could it be?" asks Doggie. "None of us could steal that much from each other. Population isn't changing that much. *Something* is clearly happening."
+
+"We need to stop them!" shouts Gladly. "They need to learn that they can't do this to us!" There are nods of agreement among everyone else.
+
+"QUACK!" says Quackers, and hides his head behind his wings. He looks dreadfully frightened.
+
+"Wait!," says LFB. "I agree with Flopsy and Foxy. We need evidence before we attack them or start a war or whatever it is that you're proposing."
+
+Cuddly Paws nods her support, and pats LFB on the back.
+
+"But how can we get evidence?" asks Bunny.
+
+"I have an idea," says Shadow. "They must keep records of some sort, don't you think? They have all these buildings and stuff. We could sneak over and see if we can find their records about their food availability (and where they got it) for the past few years. If it's going up, then they are probably stealing from us."
+
+"Not a bad idea," says LFB. "If they keep records."
+
+"Well, if they don't, we're no worse off than we are now. And at least we'll have tried, and we might find out *something* useful."
+
+"But who will go and do this?" asks Bunny. "It sounds scary."
+
+There is a long pause while nobody says anything, and then finally Doggie speaks up. "Since this was my idea in the first place, I suppose I can," he says. "But it would be helpful if a few other people came with me, because I don't know if I can do it by myself."
+
+"I'd go but I'm afraid a big bear would be hard to hide," says Gladly.
+
+"No worries," says LFB. "I'll come. I've always wanted to see Otherland."
+
+"I'll come too," says Flopsy. "I have some ideas about how to find this kind of record."
+
+Foxy raises her hand as well. "I'm not a bunny," she says, "so I might be able to blend in better."
+
+So it is decided. The four intrepid friends set off that night. 
+
+* * *
+
+Otherland, it turns out, isn't so bad at first. Doggie, Flopsy, Foxy, and LFB decide to go to the closest big city, which they get to after a few nights of travel over scraggly dirt roads and scattered farms. They figure a city like this is most likely to have a government centre where the kinds of records they are seeking are kept. 
+
+They see very few people, primarily because they are travelling at night and doing their best to stay out of sight. There seem to be a rather large number of owls about, and multiple enormous buildings with huge doors suggesting that the people who live there must themselves be quite big. 
+
+Once they get to the city, the friends find an abandoned building to stay in and spend several nights exploring, trying to find a place where records might be kept. Finally Doggie reports having found a building called "Agricultural Records" and with some trepidation, they decide to try to sneak into it the next night.
+
+At first all goes well. LFB and Foxy are the lookouts, while Doggie leads the way in and Flopsy is in charge of figuring out if they have what they need. Doggie and Flopsy eventually find a room with many notebooks, and Flopsy is poring over them feverishly when they hear a sound that terrifies them: LFB's alarm call, the whistle they agreed she would give if somebody was coming. They don't hear anything from Foxy.
+
+"We have to go!" Doggie whispers as Flopsy pages even more frantically through notebooks.
+
+"Just give me one more minute, I think this is it, but I'm not sure yet!" Flopsy says frantically. "If we get the wrong thing this was all pointless!"
+
+LFB's whistle sounds again, louder and shriller this time, followed by what sounds like a shout from Foxy. Then there is just silence. 
+
+"I don't care, we leave NOW," Doggie growls, and Flopsy hastily puts that notebook and a few others in her bag. They can hear the muffled sounds of a scuffle outside the door where LFB and Foxy are.
+
+Doggie pries open the window and jumps out of it, followed by Flopsy. The two friends circle around the building. "If there's a baddie there, you distract him and then I'll jump on him and save LFB and Foxy," says Doggie. Flopsy nods, and they look around the corner, adrenaline pumping.
+
+But there's... nothing. Nothing at all. Just some scuffed up dirt, but no sign of anybody.
+
+After waiting for a few minutes, Doggie and Flopsy cautiously begin to search for LFB and Foxy. They fear the worst; they fear finding them hurt or dead somewhere. As time passes and they do not, they begin to fear something else -- that they will not find anybody at all.
+
+The two friends search all night, and then return the next night, all to no avail. LFB and Foxy are both gone without a trace. They have found the notebooks, but at what price?
+
+Finally, with a heavy heart, Doggie suggests that they return. "We can't find LFB and Foxy," he says. "And surely they would want their final sacrifice to do some good. We have the dataset, let's analyse it."
+
+So it is agreed. Doggie and Flopsy return to Bunnyland. It is your job in this tutorial to analyse their data. See if you can make their sacrifice be worth something, and figure out if the Others are to blame for their recent food shortages.
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+install.packages("ggplot2")
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(ggplot2)
+
+# ** you need to load the data using the here() function to define the loc
+loc <- here("stolendata.csv")
+d <- read_csv(file=loc)
+d$year <- as.factor(d$year)
+```
+
+# Q1 
+
+Doggie and Flopsy were not entirely sure what the data they stole exactly contained, but it turns out that they lucked out! It contains information about food stores in Otherland over time. According to some notes at the beginning, the numbers for each year were obtained by sampling from random locations around Otherland each year. There are several columns in the dataset, labelled as follows: 
+
+*year*: the year the records were taken
+
+*location*: a code for the farm that reported this item
+
+*population*: the number of people living at that farm in that year
+
+*chickens*, *eggs*, *cows*, *pigs*, *carrots*, *lettuce*, *potatoes*, *strawberries*: number of these things at that farm that year
+
+*corn*: ears of corn at that farm that year
+
+*wheat*: bushels of wheat at that farm that year
+
+*water*: barrels of water at that farm that year
+
+Let's first get a sense of the dataset. Use the `summary` command to do so. 
+
+
+```{r summarydatachunk, warning=FALSE, message=FALSE}
+summary(d)
+
+```
+
+
+# Q2
+
+Let's start by just trying to get a sense of how population is changing over time. (a) Make a violin plot where the x axis is the year and the y axis is population. (b~) See if you can figure out how to put the individual datapoints on the graph (use `geom_jitter`). (c~) Make the individual datapoints partially see-through and (d~) Make them a nice shade of blue. 
+
+(e) Based on this graph, what does it look like the population is doing over time?
+
+```{r q2chunk, fig.width=10, warning=FALSE, message=FALSE}
+d %>%
+  ggplot(mapping=aes(x=year,y=population))+
+  geom_violin()+
+  geom_jitter(alpha=0.6,size=5,colour="navyblue")+
+  theme_bw()+
+  labs(
+    title="Change in population over time",
+    x = "Year",
+    y = "# of people in that farm"
+  )
+  
+```
+
+
+# Q3
+
+There are a lot of different foods here, so let's try to make our dataset more tractable by combining them. Create a new dataset called `ds` as follows. First use `mutate` to define two new variables: (a) *protein* and (b) *veg*. The *protein* variable should be the average of *chickens*, *eggs*, *cows*, and *pigs*. The *veg* variable should be the average of *wheat*, *corn*, *carrots*, *lettuce*, *potatoes*, and *strawberries*. (c) After you've created those, use `select` to put only the columns *year*, *location*, *population*, *protein*, *veg*, and *water* into `ds`. 
+
+
+```{r q3chunk, warning=FALSE, message=FALSE}
+
+ds <- d%>%
+  mutate(protein = (chickens + eggs + cows + pigs)/4,
+  veg = (wheat+corn+carrots+lettuce+potatoes+strawberries)/6)%>%
+  
+  select(year, location, population, protein, veg, water)
+
+
+
+```
+
+
+# Q4
+
+Of course, the raw numbers here aren't quite what we want -- it's really about how much food is available *per person* (i.e., per capita) that's important. To look at this, you'll need to create a new dataset called `ds_pc` from `ds` by calculating three new variables: (a) *proteinPC* (the protein per person each year),(b) *vegPC* (the veg per person per year), and (c) *waterPC* (the water per person per year). Then (d~) remove the original *veg*, *protein*, and *water* variables.
+
+```{r q4chunk, warning=FALSE, message=FALSE}
+
+```
+
+
+# Q5
+
+In order to graph these we'll need to create a long form dataset called `dls_pc` from `ds_pc` which has a new column called `food` which contains all *proteinPC*, *vegPC*, and *waterPC*, and another column called `amount` which contains the value for those variables. Do this.
+
+```{r q5chunk, warning=FALSE, message=FALSE}
+
+```
+
+
+# Q6
+
+(a) Make a simple scatterplot using `dls_pc` so that the food per person (`amount`) is on the y axis and the year is on the x axis. (b) Make it so each food is a different colour. (c) Be sure to have appropriate labels for your title and axes. (d~) Use `facet_wrap` to make there be a different facet for each food (HINT: the argument `scales="free"` will make it so that the y axis for each food is different). (e~) See if you can make the points diamond-shaped and larger than the default, and remove the legend. (f~) If you have already taken a look at Thursday's videos, you can add a nice palette too!
+
+(g) Does it look to you like the food available per person is going down?
+
+
+```{r q6chunk, fig.width=9, warning=FALSE, message=FALSE}
+
+```
+
+
+# Q7
+
+Now let's try to look at each food individually, rather than collapsing them all together. The code chunk below converts the original `d` dataset to long form. It has a new column called `food` which contains all of the food variables (i.e., all of the variables except *year*, *location*, and *population*) and another column called `amount` which contains the value for those variables. It then uses `mutate` to add a column called `pcAmount` which is just the per capita amount (i.e., `amount` divided by `population`). Have a look at `dl` to make sure you understand it.
+
+```{r q7makelong, warning=FALSE, message=FALSE}
+dl <- d %>%
+  pivot_longer(-c(year,population,location),names_to="food",
+               values_to="amount") %>%
+  mutate(pcAmount = amount/population)
+
+head(dl)
+```
+
+Let's now look at each of the foods and how they've changed over time in total. (a) Use `dl` to make a box plot where the y axis shows the amount of food and the x axis shows the year. (b) Use `facet_wrap` to make there be a different facet for each food (HINT: the argument `scales="free"` will make it so that the y axis for each food is different). (c~) See if you can put the individual datapoints on the boxplots, partially see-through, with a different colour for each food, and make it so it doesn't show the legend.
+
+```{r q7chunk, fig.height=8, warning=FALSE, message=FALSE}
+
+```
+
+# Q8
+
+Let's now look at each of the foods and how they've changed over time per capita. Make a plot just like the one in question 7 but where the y axis shows the per capita amount of food. 
+
+```{r q8chunk, fig.height=8, warning=FALSE, message=FALSE}
+
+```
+
+# Q9
+
+Based on all of these datasets and figures, do you think the people in Otherland might be dealing with food shortages too? Why or why not?
+

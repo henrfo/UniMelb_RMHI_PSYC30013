@@ -1,0 +1,7 @@
+"0","gdata %>%"
+"0","  group_by(gender,species) %>%"
+"0","  summarise(mnAge = mean(age),"
+"0","            sdAge = sd(age),"
+"0","            nAge = n()) %>%"
+"0","  ungroup()"
+"2","`summarise()` has grouped output by 'gender'. You can override using the `.groups` argument."

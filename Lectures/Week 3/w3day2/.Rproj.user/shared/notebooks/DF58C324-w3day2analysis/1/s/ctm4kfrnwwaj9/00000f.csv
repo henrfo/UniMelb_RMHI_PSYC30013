@@ -1,0 +1,4 @@
+"0","filterEx <- ds %>% "
+"0","   filter(gender==""female"") %>%"
+"0","   arrange(desc(happy))"
+"0","filterEx"

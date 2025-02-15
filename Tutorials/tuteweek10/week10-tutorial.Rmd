@@ -1,0 +1,116 @@
+---
+title: "Week 10 Tutorial"
+author: "Andrew Perfors"
+output: word_document
+---
+
+It looks like there is generally moderate support for opening up the borders between the two lands, at least among the folks we've seen, so next everyone decides to explore *who* might be willing to do the travel. They therefore survey 100 people and ask them to rate their willingness to travel to the other land to help farm there on a scale of 0 to 100. Out of curiosity, they also have everyone fill out personality questionnaires to see if their willingness to travel is predicted by extroversion or openness to experience. The results are in the `dw` dataset, which has the following columns:
+
+*person*: the id of the person doing the survey
+
+*extroversion*: extroversion rating (0 is very introverted, 100 is very extroverted)
+
+*openness*: openness to experience (0 is not at all open, 100 is very open)
+
+*willingness*: willingness to travel to the other land to help farm (0 is not at all, 100 is completely)
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(lsr)
+
+# load the data
+dw <- read_csv(file=here("travelwillingness.csv"))
+
+```
+
+Let's start by looking just at the role of extroversion. As always, we begin by looking at our data:
+
+```{r scatterplot}
+dw %>%
+  ggplot(mapping=aes(x=extroversion,y=willingness)) +
+  geom_point(colour="darkblue",alpha=0.7,size=3) +     
+  theme_bw() +
+  labs(title = "Relationship between extroversion and travel willingness", 
+       x="Extroversion (higher = more extroverted)", 
+       y="Travel willingness (higher = more willing")
+```
+
+1. Calculate the Pearson correlation between *extroversion* and *willingness*. (Why are we using Pearson and not Spearman?) What do your results indicate about the relationship between extroversion and willingness to travel?
+
+```{r q1}
+
+```
+
+*ANSWER: *
+
+Now let's fit a regression line to the plot we generated earlier, treating  *willingness* as the outcome variable and *extroversion* as the predictor:
+
+```{r scatterplotwithline, message = FALSE}
+dw %>%
+  ggplot(mapping=aes(x=extroversion,y=willingness)) +
+  geom_point(colour="darkblue",alpha=0.7,size=3) +     
+  theme_bw() +
+  geom_smooth(method="lm") +
+  labs(title = "Relationship between extroversion and travel willingness", 
+       x="Extroversion (higher = more extroverted)", 
+       y="Travel willingness (higher = more willing")
+```
+
+2. Run a linear regression analysis where *willingness* is the outcome variable and *extroversion* is the predictor.
+
+```{r q2}
+
+```
+
+(a) What does it tell you that the correlation did not? [Hint: focus on the coefficients: what are they, and how do they correspond to the regression equation?]
+
+*ANSWER: *
+
+(b) Are the t-statistic and p-value for extroversion the same as before? Why or why not? 
+
+*ANSWER: *
+
+(c) What is the relationship between the reported R-squared and the correlation coefficient you found in #1?
+
+*ANSWER: *
+
+
+3. Let's now add another predictor to the model. Our outcome variable is still *willingness*, but this time the two predictors are *extroversion* and *openness*. Run the model with both of them (don't worry about any interaction terms). Note: A plot of the model can be found in the "week10-tutorial-plots" HTML document.
+
+```{r q3}
+
+```
+
+(a) What do your results indicate, and how would you report it? 
+
+*ANSWER: *
+
+(b) Does this model as a whole account for more variance than the model in #2?
+
+*ANSWER: *
+
+(c) Notice that the effect of *extroversion* and the intercept are both different than in #2. Why does this happen?
+
+*ANSWER: *
+
+
+4. Calculate the standardised coefficients for *extroversion* and *openness.* Are they very different from the un-standardised ones? Why or why not?
+
+```{r q4}
+
+```
+
+*ANSWER: *
+
+5. Run the version of the model in #3 with the interaction term. Why are the results so different? How do you suppose you decide which model to use in your analysis? Note: A plot of the model can be found in the "week10-tutorial-plots" HTML document.
+
+```{r q5}
+
+```
+
+*ANSWER: *

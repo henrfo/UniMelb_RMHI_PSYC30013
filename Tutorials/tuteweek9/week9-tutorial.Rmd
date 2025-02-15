@@ -1,0 +1,167 @@
+---
+title: "Week 9 Tutorial"
+author: "Andrew Perfors"
+---
+
+
+Let us join the group back in Otherland, who have begun to build trust and are finally sitting around, weapons down, starting to chat and be friends. 
+
+"This is great," Gladly finally observes, "but it still doesn't really solve our problem. LFB and Foxy are safe and we aren't going to have a needless war, but we aren't any closer to solving the food shortages."
+
+At this point they are interrupted by some new arrivals. It's Bunny, Shadow, Flopsy and their friends! They are panting with exhaustion and waving graphs.
+
+"Stop!" Bunny shouts. "Don't fight! We think we know what's going on!"
+
+Everyone stops and stares. Shadow breaks the ensuing silence by saying, "At least in Bunnyland, it looks like we're not using our land well. Pasture should be used for ranching, hilly land for growing things like berries and carrots, and so forth. We used to do that, but we're not now. Does that sound like what might be going on for you Others also?"
+
+The Others seem stunned, but whisper amongst themselves. Finally Little Blue speaks up. "I think so," she says. "But there's a reason for that, I think. Years ago we used to have lots of small animals who could do things like harvest berries and corn. We don't have many anymore, which means that we have to do a lot more ranching, even on land that's not good for it. It also means we can only grow crops that are easy for people with only hooves or giant paws to harvest."
+
+Flopsy nods. "Sounds like we have the opposite problem. We used to have lots of large animals, but not nearly so many anymore. So we can't do much ranching at all, nor can we grow crops that require things like plows. And we don't have many birds so we can't even scout around to find better land."
+
+"Why has this changed so much?" asks Bunny.
+
+"Remember a few decades ago when both of our governments grew more isolationist?" asks Sissily. "We stopped visiting and made our borders strong, so nobody immigrated in or out. That meant that we no longer had new bunnies and small animals, and you no longer had big ones coming in."
+
+"That makes sense," Gladly says. "But how do we know for sure that this is what's happening? We've been led astray before."
+
+"I know I always say this, but let's look at some data," says Shadow. "One thing we could test is whether it's really true that some animals are better at different things related to food production."
+
+Rainbow jumps up and down, hooves clattering. "I have just the thing!" she says. We've been tracking food production by individual, and I could collapse the individuals into groups by species. Then we could see if some species are better at some things than others."
+
+"Hey, I have some old data on that too," says LFB. "We might have different species in the dataset than you, so we could combine our data and that would help. The only problem is that I didn't take it with me so it's still at home."
+
+"No worries," admits Flopsy. "I didn't know what we'd need so I just brought a bunch of data with me. Yours might be in there too."
+
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(lsr)
+library(car)
+
+# load the data
+df <- read_csv(file=here("harvesting.csv"))
+di <- read_csv(file=here("immigration.csv"))
+di$worry <- factor(di$worry,levels=c("little","medium","lots"))
+
+```
+
+
+Everyone crowds around, lending their skills and data, and eventually compile together the dataset loaded here called `df`. To make matters simple, they first decide to concentrate on just one skill (harvesting) and group each person into one of four classifications. Two of them correspond to the two most numerous species (bunny and bear) and two cluster multiple species together (large prey animals like cows and unicorns, vs small predator animals like cats, dogs, tigers, and so forth). The dataset thus includes the following three columns:
+
+*person*: the ID of the person who did the harvesting
+
+*species*: which of the four species classifications that person falls in
+
+*harvest*: the number of units of food that person harvested
+
+```{r speciesfig}
+df %>% 
+  ggplot(mapping=aes(x=species,y=harvest,fill=species)) +
+  geom_jitter(data=df,mapping=aes(x=species,y=harvest,color=species),show.legend=FALSE) +
+  geom_violin(alpha=0.4,colour="black",show.legend=FALSE) +
+  theme_bw() +
+  labs(title = "Species skills for harvesting",
+       ylab = "Mean units harvested")
+```
+
+1. What is the statistical null hypothesis for this situation, and how does it map onto the research null hypothesis?
+
+*ANSWER: *
+
+2. When SSb is high, what does that mean, intuitively? All other things being equal, is this more or less likely to mean a significant difference between groups? Similarly, when SSw is high, what does that mean, intuitively? All other things being equal, is this more or less likely to mean a significant difference between groups?
+
+*ANSWER: *
+
+3. The F-statistic reflects the *ratio* between SSb and SSw. Intuitively, why is it defined this way? When is an F-statistic likely to be significant?
+
+4. Run a one-way ANOVA to see if harvesting ability varies significantly by species. Include a calculation of effect size. Report your answer, including an interpretation of effect size. Do you think everyone is correct about what's been going on regarding food production?
+
+```{r q4}
+
+```
+
+*ANSWER: *
+
+5. In addition to wanting to find out if different species have similar abilities to harvest, we also want to know *which* species have more or less ability than others. Perform the analysis you would need to do in order to evaluate that, and report your results.
+
+```{r q5}
+
+```
+
+*ANSWER: *
+
+CHALLENGE FOR LATER: 6. Pretend you ran six t-tests and obtained the  unadjusted p-values in the `vals` vector below. Manually calculate what the adjusted p-values would be if you used (a) Bonferroni corrections; or (b) Holm corrections.
+
+```{r q6}
+vals <- c(0.002, 0.004, 0.011, 0.034, 0.068, 0.45)
+
+```
+
+* * *
+
+Gladly, Bunny, and all their friends from Bunnyland (and now Otherland, too!) have established that they might be able to address their food shortage by working together. Folks in Bunnyland need more large animals to do things like make good use of pasture for ranching and rich soil for plowing and growing crops like corn and grains. Folks in Otherland need more small animals like bunnies to harvest these grains, as well as to make use of hilly land (and in-between bits) to grow smaller crops like berries or carrots.
+
+And of course *everyone* needs to take advantage of the skills of everybody. Natural leaders like Doggie or Super Size need to figure out how to get everyone working together and decide what to prioritise and what do to. Scientists like Flopsy, Shadow, and Little Blue need to learn even more about what's been going on and what will work in the future. Empathetic, helpful people like Bunny, LFB, Foxy, Gladly, and Fluffy need to help everyone overcome years of fear and intolerance and build trust and friendship. And artists and entertainers like Cuddly Paws, Quackers, and Kevin need to give people things to do and hope to get them through the hard times.
+
+One of the first questions everyone has to figure out is how much to open up immigration and travel between Bunnyland and Otherland. Until now, there's been none, but obviously that is not possible to maintain if they want to work together. In order to figure out what people think, both countries run a survey. They ask people to rate their worry about the food situation as either "a little", "medium", or "a lot." Each country then picks 30 people from each of the three worry categories and asks them their opinion about how much to open up immigration on a scale of 0 to 100, where 0 is "no travel at all, ever" and 100 is "no travel or living restrictions at all." 
+
+The results are in the data frame `di` which has been loaded for you. It has four columns:
+
+*person*: id of the person answering the question
+
+*location*: whether the person is from Bunnyland or Otherland
+
+*worry*: whether they rated themselves as a little worried, worried a medium amount, or worried a lot
+
+*immigration*: their answer to the immigration question (0=no travel at all; 100=completely open borders)
+
+As always, first we look at our data. This time, just for variety, we'll use box plots. How do the answers to the immigration question vary by location and worry level? Press play to see.
+
+```{r firstfigure}
+di %>% 
+  ggplot(mapping = aes(x=location, y=immigration)) +
+  geom_boxplot(aes(colour=worry),width=0.5,position=position_dodge(0.8)) +
+  geom_dotplot(aes(fill=worry,colour=worry),dotsize=0.6,alpha=0.7,binwidth=2,
+               binaxis='y',stackdir='center',position=position_dodge(0.8)) +
+  theme_bw() +
+  labs(title="Immigration views by location and level of worry",x="Location of person",y="Immigration acceptance (0=none, 100=all)")
+```
+
+7. In order to investigate both of these factors we need to do a two-way ANOVA - do you understand why? If you ran a one-way ANOVA with Factor A and a two-way ANOVA with Factor A and Factor B, would you expect the F-statistic and p-value for Factor A to be the same in both cases? Why or why not?
+
+*ANSWER: *
+
+8. Perform a two-way ANOVA with main effects only (i.e. no interaction effect) and explain the result (including stats block). What does it show?
+
+```{r q8}
+
+```
+
+*ANSWER: *
+
+In practice, to better understand the main effect of worry, we might do post-hoc t-tests between all of the pairwise combinations of worry groups (i.e., comparing a little to medium, medium to a lot, and so forth). We won't ask you to do this in today's tutorial in the interests of time, but you've already had some practice with it in question #5.
+
+9. The ANOVA model above doesn't include an interaction term. What is an interaction, and why might we want to test for it? 
+
+*ANSWER: *
+
+10. Run an ANOVA just like #8 but with an interaction term, and interpret the results. Are the p-values for the main effects of worry and location the same as before? Why or why not?
+
+```{r q10}
+
+```
+
+*ANSWER: *
+
+11. Calculate the effect size for the model in #10. How do you interpret both the eta squared and partial eta squared values? Is it possible to have partial eta squared values that are smaller than their corresponding eta squared values?
+
+```{r q11}
+
+```
+
+*ANSWER: *

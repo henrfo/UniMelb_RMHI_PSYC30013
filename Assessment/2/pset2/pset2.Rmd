@@ -1,0 +1,292 @@
+---
+title: "RMHI/ARMP Problem Set 2"
+author: 'Henrik Formoe 1575157 [Word Count: XX]'
+output: word_document
+---
+
+Please put your answers here, following the instructions in the assignment description. Put your answers and word count tallies in the locations indicated; if none is indicated that means there is no word count for that question. Remember to knit as you go, and submit the knitted version of this on Canvas.
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# this deletes any variables that are in your environment
+# useful so you don't get conflicts you're unaware of
+rm(list=ls())
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(ggplot2)
+library(lsr)
+library(RColorBrewer)
+library(car)
+
+# loading datasets
+ds <- read_csv(file=here("shiftsmonitoring.csv"))
+dl <- read_csv(file=here("testdata.csv"))
+dc <- read_csv(file=here("crimestats.csv"))
+df <- read_csv(file=here("foodprices.csv"))
+dh <- read_csv(file=here("healthratings.csv"))
+
+# makes person variable in `ds` a factor
+ds$person <- as.factor(ds$person)
+
+# reorders so tables are in intuitive order
+dc$crime <- factor(dc$crime,
+                   levels=c("food","tech","vehicles","other"))
+dc$year <- factor(dc$year,levels=c("previous","current"))
+dh$exCat <- factor(dh$exCat,levels=c("low","high"))
+dh$inCat <- factor(dh$inCat,levels=c("poor","rich"))
+```
+
+## Q1
+
+**Q1a**
+
+```{r q1a, message=FALSE, warning=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+
+**Q1b**
+
+```{r q1b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*Note that the order of these assumptions (i.e., what assumption you put in 1 vs 2) does not matter!* 
+
+*ASSUMPTION 1: Insert answer here [Word Count: N]*
+
+*ASSUMPTION 2: Insert answer here [Word Count: N]*
+
+
+**Q1c**
+
+```{r q1c, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q1d**
+
+```{r q1d, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word count: N]*
+
+
+## Q2 
+
+**Q2a** 
+
+```{r q2a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q2b** 
+
+```{r q2b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: (i) Insert answer here; (ii) Insert answer here; (iii) Insert answer here [Word Count: N]*
+
+
+**Q2c**
+
+```{r q2c, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: The standardised coefficient is ____.*
+
+
+**Q2d** 
+
+```{r q2d, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# this code is given
+dl <- dl %>%
+  mutate(lfbZnorm = (lfb - mean(lfb))/sd(lfb),
+         foxyZnorm = (foxy - mean(foxy))/sd(foxy))
+
+# any code goes here
+
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q2e**
+
+```{r q2e, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+## Q3
+
+**Q3a**
+
+```{r q3a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# this code is given
+dcPlotTable <- dc %>%
+  group_by(year,crime) %>%
+  summarise(n = n()) %>%
+  ungroup()
+
+# any code goes here
+
+```
+
+
+**Q3b**
+
+```{r q3b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q3c** 
+
+```{r q3c, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q3d**
+
+```{r q3d, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+## Q4
+
+```{r q4fig, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# plot the figure 
+dfLong <- df %>%
+  pivot_longer(cols=c(previous,current),names_to="year",
+               values_to="price")
+dfLong$year <- factor(dfLong$year,
+                      levels=c("previous","current"))
+
+dfSum <- dfLong %>%
+  group_by(year) %>%
+  summarise(mean=mean(price),
+            sd=sd(price),
+            n=n(),
+            sdErr=sd/sqrt(n)) %>%
+  ungroup()
+
+dfLong %>%
+  ggplot(mapping=aes(y=price,x=year,colour=year)) +
+  geom_path(aes(group=names),colour="grey",
+            linewidth=0.3) +
+  geom_jitter(alpha=0.4,size=3,width=0.02,height=0) +
+  geom_errorbar(data=dfSum,width=0.15,
+                colour="black",
+                mapping=aes(y=mean,
+                            ymin = mean-sdErr,
+                            ymax = mean+sdErr)) +
+  theme_bw() +
+  theme(legend.position="none") +
+  scale_fill_brewer(palette="Set1") +
+  scale_colour_brewer(palette="Set1") +
+  labs(title="Price change over time",
+       subtitle="Each dot is one kind of food item",
+       y="Average price", x="Year")
+```
+
+**Q4a**
+
+```{r q4a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q4b**
+
+```{r q4b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+## Q5
+
+**Q5a**
+
+```{r q5a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+
+**Q5b**
+
+```{r q5b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+## Q6
+
+**Q6a**
+
+```{r q6a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+**Q6b**
+
+```{r q6b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+```
+
+*ANSWER: (i) Insert answer here; (ii) Insert answer here; (iii) Insert answer here [Word Count: N]*
+
+
+**Q6c**
+
+*ANSWER: Insert answer here [Word Count: N]*
+
+
+## Q7
+
+**Q7a**
+
+*ANSWER: (i) ___ (ii) ___ (iii) ___ *
+
+
+**Q7b**
+
+*ANSWER: (i) Insert answer here; (ii) Insert answer here; (iii) Insert answer here [Word Count: N]*
+
+
+## Q8
+
+*ANSWER: Insert answer here.* 
+

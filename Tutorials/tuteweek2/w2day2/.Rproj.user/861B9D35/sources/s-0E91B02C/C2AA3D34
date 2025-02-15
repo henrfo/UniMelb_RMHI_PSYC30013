@@ -1,0 +1,26 @@
+{
+    "id": "C2AA3D34",
+    "path": "~/Documents/teaching/2022/rmhi/exercises/week2/w2day2/gladlysurvey_modified.Rmd",
+    "project_path": "gladlysurvey_modified.Rmd",
+    "type": "r_markdown",
+    "hash": "706654128",
+    "contents": "",
+    "dirty": true,
+    "created": 1646622508328.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "cursorPosition": "27,43",
+        "last_setup_crc32": "0E91B02Cfc5b81b1",
+        "scrollLine": "23",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1646623479,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1646623479807,
+    "read_only": false,
+    "read_only_alternatives": []
+}

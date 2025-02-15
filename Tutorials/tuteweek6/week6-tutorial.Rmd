@@ -1,0 +1,88 @@
+---
+title: "Week 6 Tutorial"
+author: "Andrew Perfors"
+output: html_document
+---
+
+Everybody is very worried and Shadow and Bunny especially are concerned about preventing the worry from turning into full-scale panic. Bolstered by the reassuring and calming presence of Cuddly Paws, they start thinking a lot about how to measure the amount of worry and fear going around and what it would mean. 
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(lsr)
+
+# load the data
+dw <- read_csv(file=here("worrysample.csv"))
+
+```
+
+1. Bunny guesses that the true population distribution of worry probably looks bimodal, with one peak of people who aren't very worried and another peak of people who are. Bunny fears that if that is the true population distribution, none of our statistics will work: even if they take repeated samples from this distribution and make repeated estimates of the mean, there is no reason that these estimates will be meaningful. Quackers insists that she is wrong: that because of the Central Limit Theorem, they know certain things about what to expect from their sampling distribution of the mean. 
+
+Quackers is correct. Name two things we know about the sampling distribution of the mean, no matter what the shape of the underlying true population distribution is.
+
+
+2. Shadow collects data from 100 people, asking each of them to rate their level of worry on a scale of 0 to 100, where 0 means no worry at all and 100 is maximum level of worry. This data is in the tibble `dw` which has already been loaded for you. It has one column called *score*. 
+
+(a) Calculate the mean, standard deviation, and sample size n of this dataset. 
+
+```{r q2a}
+view(dw)
+
+mean(dw$score)
+sd(dw$score)
+size_sum(dw$score)
+
+    
+```
+
+(b) Calculate the standard error. If the sample size was 10 times larger, would you expect that standard error would be larger or smaller? Why? 
+
+```{r q2b}
+
+((25.18517)/10)
+
+# = 2.518517
+
+# Bigger sample, smaller standard error.
+
+
+```
+
+(c) Calculate the 95% confidence interval of the mean. 
+
+```{r q2c}
+
+
+
+```
+
+(d) How do you interpret the value you got in (c)?
+
+
+3. Flopsy and Bunny are both wondering if the amount of worry is going up with time. Shadow proposes that they test this, by sampling a bunch of different people a week apart and asking them to rate their worry on the 0-100 scale above. They can then test if their answers are the same.
+
+(a) If they did this, what is their research hypothesis? 
+
+(b) What is the research null hypothesis? 
+
+(c) What is the statistical null hypothesis? 
+
+(d) What is the statistical alternative hypothesis?
+
+
+4. Bunny tells Flopsy and Shadow that she would like to design a study that eliminates both Type I and Type II error. Is this even theoretically possible? Why or why not?
+
+
+5. Suppose Bunny runs a statistical test, finds a p-value of 0.03, and decides to reject the null hypothesis. 
+
+(a) Suppose the null hypothesis is really "true"; is Bunny's result an error? If so, what kind? (Type I or Type II) If not, why not? 
+
+(b) Suppose she runs a test, finds a p-value of 0.76, and decides not to reject the null hypothesis. Suppose the null hypothesis is really "true"; is Bunny's result this time an error? If so, what kind? If not, why not?
+
+
+6. Flopsy runs a statistical test and gets a p-value of 0.023. She states that "the null hypothesis is false, and the probability that this result was due to chance is 2.3%." What is wrong with Flopsy's statement? Can you rephrase it for her so it is correct?
+

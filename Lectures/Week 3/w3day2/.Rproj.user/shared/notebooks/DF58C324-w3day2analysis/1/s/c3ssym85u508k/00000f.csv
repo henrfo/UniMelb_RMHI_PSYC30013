@@ -1,0 +1,7 @@
+"0","gdata %>%"
+"0","  filter(!is.na(mud)) %>%"
+"0","  mutate(goodFood = (carrot+cake)/2)  %>%"
+"0","  group_by(gender) %>%"
+"0","  summarise(meanGoodFood = mean(goodFood),"
+"0","            meanBadFood = mean(mud)) %>%"
+"0","  ungroup()"

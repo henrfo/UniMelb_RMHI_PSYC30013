@@ -1,0 +1,598 @@
+---
+title: "RMHI/ARMP Problem Set 2"
+author: 'Henrik Formoe 1575157 [Word Count: 1498]'
+output: word_document
+---
+
+Please put your answers here, following the instructions in the assignment description. Put your answers and word count tallies in the locations indicated; if none is indicated that means there is no word count for that question. Remember to knit as you go, and submit the knitted version of this on Canvas.
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# this deletes any variables that are in your environment
+# useful so you don't get conflicts you're unaware of
+rm(list=ls())
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(ggplot2)
+library(lsr)
+library(RColorBrewer)
+library(car)
+library(rstatix)
+library(QuantPsyc)
+library(DescTools)
+library(vcd)
+library(rcompanion)
+
+# loading datasets
+ds <- read_csv(file=here("shiftsmonitoring.csv"))
+dl <- read_csv(file=here("testdata.csv"))
+dc <- read_csv(file=here("crimestats.csv"))
+df <- read_csv(file=here("foodprices.csv"))
+dh <- read_csv(file=here("healthratings.csv"))
+coffee <- read_csv(file=here("class19_data.csv"))
+
+# makes person variable in `ds` a factor
+ds$person <- as.factor(ds$person)
+
+# reorders so tables are in intuitive order
+dc$crime <- factor(dc$crime,
+                   levels=c("food","tech","vehicles","other"))
+dc$year <- factor(dc$year,levels=c("previous","current"))
+dh$exCat <- factor(dh$exCat,levels=c("low","high"))
+dh$inCat <- factor(dh$inCat,levels=c("poor","rich"))
+```
+
+## Q1
+
+**Q1a**
+
+```{r q1a, message=FALSE, warning=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+
+coffee_plot <- ggplot(data = coffee, aes(fill = 4)) +
+  geom_col(data = coffee, aes(x = 4, y = 7), alpha = 0.3, color = 3, width = 0.7, show.legend = FALSE) +
+  scale_y_continuous(breaks = seq(0,100, by = 10)) +
+  theme_bw() +
+  labs(
+    title = "Mean time spent watching per shift:",
+    x = "Person",
+    y = "Time Watching (Seconds)"
+  ) +
+
+print(coffee_plot)
+
+
+mean(df$previous)
+## [1] 12.95425
+mean(df$current)
+## [1] 14.33988
+# I was just interested in looking at the mean of both years too.
+
+t.test(x = df$current, y = df$previous, paired = TRUE)
+
+coffee <- cohensD(df$current, df$previous, method = "paired")
+
+print(coffee)
+
+
+## [1] 0.3367456
+
+
+ds_d <- ds %>%
+  group_by(person) %>%
+  summarise(
+  MeanTime = mean(length),
+  SDtime = sd(length),
+  SEtime = SDtime / sqrt(n())
+) %>%
+  ungroup()
+
+ds_barplot <- ggplot(data = ds_d, aes(fill = person)) +
+  geom_col(data = ds_d, aes(x = person, y = MeanTime), alpha = 0.3, color = "black", width = 0.7, show.legend = FALSE) +
+  geom_errorbar(data = ds_d, aes(x = person, y = MeanTime, ymin = MeanTime - SEtime, ymax = MeanTime + SEtime), width = 0.2) +
+  geom_jitter(data = ds, aes(x = person, y = length, color = person), position = position_jitter(width = 0.6, height = 0.6), size = 2, alpha = 0.9, show.legend = FALSE) +
+  scale_y_continuous(breaks = seq(0,100, by = 10)) +
+  theme_bw() +
+  labs(
+    title = "Mean time spent watching per shift:",
+    x = "Person",
+    y = "Time Watching (Seconds)"
+  ) +
+  scale_fill_brewer(palette = "Pastel1") +
+  scale_color_brewer(palette = "Pastel1")
+
+print(ds_barplot)
+
+```
+
+
+**Q1b**
+
+```{r q1b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+qqnorm(ds$length)
+
+shapiro.test(ds$length)
+
+shapiro.test(ds$length[ds$person=="BigHippo"])
+shapiro.test(ds$length[ds$person=="QuietHorse"])
+shapiro.test(ds$length[ds$person=="ScaryBear"])
+
+leveneTest(length ~ person, data = ds)
+
+jitter1 <- ggplot (ds) +
+  geom_jitter(aes(x = shift, y = length, color = person), position = position_jitter(width = 0.6, height = 0.6), size = 2, alpha = 0.9) +
+  theme_bw()
+  
+print(jitter1)
+
+
+```
+
+*Note that the order of these assumptions (i.e., what assumption you put in 1 vs 2) does not matter!* 
+
+*ASSUMPTION 1: We assume that our data follows a normal distribution. First using qqnorm, and then test it using a shapiro.test to evaluate the assumption of normality. We found overall p = 0.033. Also, we have multiple groups (three persons), and therefore tested each group. BigHippo p = 0.424, QuietHorse p = 0.599, ScaryBear p = 0.033. The null hypothesis is that the data is normally distributed, so this indicates that the data in its whole, and for ScaryBear, is not normally distributed. [Word Count: 81]*
+
+*ASSUMPTION 2: We assume that the variance across all groups is homogenous, and test this using a leveneTest. p = 0.630 shows that there is no significant difference, therefore confirming homogenous variance across groups. [Word Count: 32]*
+
+
+**Q1c**
+
+```{r q1c, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+kruskal.test(length ~ person, data = ds)
+
+kruskal_effsize(length ~ person, data = ds)
+
+```
+
+*ANSWER: Given the results in Q1B, we find the data not to be normally distributed, but the variety across the groups to be homogenous. This means that we will use a Kruskal-Wallis test, because the assumption of normal distribution is violated. We find the chi-squared = 22.47, p-value = 1.321e-05 indiciating a significant difference between the three people and the amount of time spent watching. We find the effect size to be 0.359, suggesting that 35.9 % of the variance in length (seconds) is attributed to the person watching. [Word Count: 88]*
+
+
+**Q1d**
+
+```{r q1d, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+watchtime_person <- aov(length ~ person, data = ds)
+summary(watchtime_person)
+
+etaSquared(watchtime_person)
+
+posthocPairwiseT( x = watchtime_person, p.adjust.methods = "holm")
+
+```
+
+*ANSWER: We ran post-hoc tests with holm-correction, and found significant effects with p = 2.3e-06 between BigHippo and ScaryBear, and p = 0.0011 between QuietHorse and ScaryBear. In terms of LFBs question, this shows a significant difference in watch times between SB and BH, and SB and QH. [Word count: 47]*
+
+
+## Q2 
+
+**Q2a** 
+
+```{r q2a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+dl$question <- factor(dl$question, levels = paste0("Q", 1:40), ordered = TRUE)
+
+cor.test(dl$lfb, dl$foxy)
+
+
+jitter2 <- ggplot (dl) +
+geom_smooth(method = "lm", aes(x = dl$lfb, y = dl$foxy), se = FALSE, colour = "black", show.legend = FALSE) +
+geom_jitter(aes(x = dl$lfb, y = dl$foxy, color = question), position = position_jitter(width = 0.6, height = 0.6), size = 2, alpha = 0.9) +
+  theme_bw() +
+  scale_y_continuous(breaks = seq(0,100, by = 10)) +
+  scale_x_continuous(breaks = seq(0,100, by = 10)) +
+  labs(
+    title = "Correlation between answers:",
+    x = "LFB",
+    y = "Foxy"
+  )
+
+  
+print(jitter2)
+
+
+```
+
+*ANSWER: Our tests show a correlation coefficient of 0.854 with a p-value = 2.31e-12. We used a Pearson's correlation test, because it assumes linearity between X and Y, hence why we also included the linear regression line which illustrates the positive correlation. In sum, this indicates that LFB and Foxy's answers overall were very similar. [Word Count: 54]*
+
+
+**Q2b** 
+
+```{r q2b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+jitter2 <- ggplot (dl) +
+geom_smooth(method = "lm", aes(x = dl$lfb, y = dl$foxy), se = FALSE, colour = "black", show.legend = FALSE) +
+geom_jitter(aes(x = dl$lfb, y = dl$foxy, color = question), position = position_jitter(width = 0.6, height = 0.6), size = 2, alpha = 0.9) +
+  theme_bw() +
+  scale_y_continuous(breaks = seq(0,100, by = 10)) +
+  scale_x_continuous(breaks = seq(0,100, by = 10)) +
+  labs(
+    title = "Correlation between answers:",
+    x = "LFB",
+    y = "Foxy"
+  )
+
+  
+print(jitter2)
+
+
+model1 <- lm(formula = lfb ~ foxy, data = dl)
+summary(model1)
+
+plot(model1,which=1:2)
+
+
+
+
+```
+
+*ANSWER: (i) t-statistic and p-value is the same for both the linear regression model and the Pearson correlation test. t= 10.141 and the p-value = 2.31e-12. ; (ii) The correlation coefficient r explains the strength and direction of the relationship between the variables, and how our data points fit along a straight line. It might therefore show a strong/weak and positive/negative relationship (or no relationship = 0). A regression line (Y = b1 X + b0) is the best fitting straight line to our data points, meaning with the least residual values. While r shows strength and direction, the value (b1 X) indicates unit increase which also shows strength and direction, e.g. every time Foxy answers 50, LFB's answer will be (0.623 x 50 + 30.427 = 61.577).; (iii) It provides us with the adjusted R-squared, and F-statistics. [Word Count: 136]*
+
+
+**Q2c**
+
+```{r q2c, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+standardcoefficient1 <- lm(scale(lfb) ~ scale(foxy), data = dl)
+
+lm.beta(standardcoefficient1)
+# Also just wanted to try this one.
+
+summary(standardcoefficient1)
+
+```
+
+*ANSWER: The standardised coefficient is 0.854 *
+
+
+**Q2d** 
+
+```{r q2d, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# this code is given
+dl <- dl %>%
+  mutate(lfbZnorm = (lfb - mean(lfb))/sd(lfb),
+         foxyZnorm = (foxy - mean(foxy))/sd(foxy))
+
+# any code goes here
+cor.test(dl$lfbZnorm, dl$foxyZnorm)
+
+
+```
+
+*ANSWER: This code chunk is converting our raw scores to standardized scores. To be able to compare apple's to oranges, or LFB's answers to Foxy's answers we need standardized scores. The formula for z-scores is: standardized score = (raw scores - population mean) / population SD. For z-scores the mean is by definition zero and SD is one. Z-scores are applied e.g. in WICS-IV, where the mean is one hundred and one SD is 15. The answer is still the same, since the relative values are still the same, but it's now easier to understand how a value measures compared to the mean, explained by standard deviations. [Word Count: 106]*
+
+
+**Q2e**
+
+```{r q2e, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+
+dl$question <- factor(dl$question, levels = paste0("Q", 1:40), ordered = TRUE)
+
+jitter3 <- ggplot (dl) +
+geom_smooth(method = "lm", aes(x = dl$lfbZnorm, y = dl$foxyZnorm), se = FALSE, colour = "black", show.legend = FALSE) +
+geom_jitter(aes(x = dl$lfbZnorm, y = dl$foxyZnorm, color = question), position = position_jitter(width = 0.6, height = 0.6), size = 2, alpha = 0.9) +
+  theme_bw() +
+  scale_y_continuous(breaks = seq(0,100, by = 10)) +
+  scale_x_continuous(breaks = seq(0,100, by = 10)) +
+  labs(
+    title = "Correlation between answers (standardized):",
+    x = "LFB",
+    y = "Foxy"
+  )
+
+  
+print(jitter3)
+
+```
+
+*ANSWER: In the standardized linear regression, the intercept parameters are centered around the mean of each 'population', in this case person, and the intercept is at 2.341e-16. Also, the slope is now 0.85, meaning that for every SD increase in Foxy, we expect a 0.85 SD increase in LFB. In other words, the values are displayed according to standard deviations from to the mean, rather than using unit-differences in values of the raw scores. [Word Count: 73]*
+
+
+## Q3
+
+**Q3a**
+
+```{r q3a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# this code is given
+dcPlotTable <- dc %>%
+  group_by(year,crime) %>%
+  summarise(n = n()) %>%
+  ungroup()
+
+# any code goes here
+
+  dc_barplot <- ggplot(data = dcPlotTable, aes(x = year, y = n, fill = crime)) +
+  geom_col(alpha = 1, color = "black", size = 0.2, width = 0.9, show.legend = TRUE)  +
+  scale_y_continuous(breaks = seq(0,200, by = 50)) +
+  scale_x_discrete(guide = guide_axis (angle=90)) +
+  coord_flip() +
+  theme_bw() +
+  theme(aspect.ratio = 3/5) +
+  labs(
+    subtitle = "Frequency of crimes of each type",
+    x = "year",
+    y = "n",
+    fill = "crime"
+  ) +
+  scale_fill_brewer(palette = "Set1") +
+  scale_color_brewer(palette = "Set1")
+
+print(dc_barplot)
+
+
+
+```
+
+
+**Q3b**
+
+```{r q3b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+filtered_dcPlot <- dcPlotTable %>%
+  filter(year == "current") %>%
+  mutate(p = 0.25)
+
+#Extract data for current year
+
+n_crime <- filtered_dcPlot$n
+expected_p <- filtered_dcPlot$p
+
+#Make data suitable for test
+
+chi_dcPlot <- chisq.test(x=n_crime,p=expected_p)
+cramer_v_result1 <- CramerV(table(filtered_dcPlot$crime, n_crime))
+#Desctools
+cramer_v_result2 <- cramerV(table(filtered_dcPlot$crime, n_crime))
+#Rcompanion
+
+print(cramer_v_result1)
+print(cramer_v_result2)
+
+#Chi-square & CramerV
+
+filtered_dcPlot <- filtered_dcPlot %>%
+mutate(st_dres = chi_dcPlot$stdres)
+
+#Adding residuals
+
+print(filtered_dcPlot)
+print(chi_dcPlot)
+
+
+```
+
+*ANSWER: We conducted a chi-square Goodness of Fit to see if the data is how we would expect -- if the likelihood is equal for all crime-types. In accordance with LFB's statement, the chisq (X-squared = 174.95, df = 3, p-value < 2.2e-16) reject the 0-hypothesis, and therefore confirm that some crime-types occur more often than we'd expect, and some a lot less. The residuals show food crime at the top, and "others" occurring less frequently.  [Word Count: 74]*
+
+
+**Q3c** 
+
+```{r q3c, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+dc_table <- dcPlotTable %>%
+  pivot_wider(names_from = "year", values_from = "n")
+  
+print(dc_table)
+
+chisq_indp <- chisq.test(dc_table[, -1])
+
+chisq_indp$observed
+chisq_indp$expected
+chisq_indp$residuals
+chisq_indp$stdres
+
+print(chisq_indp)
+
+```
+
+*ANSWER: I conducted a chi-square test of independence (X-squared = 8.719, df = 3, p-value = 0.033) to test if variables are related to each other, looking at thefts committed in the previous and current year. The results show a statistically significant effect indicating a difference in crimes committed in the previous and current year. [Word Count: 54]*
+
+
+**Q3d**
+
+```{r q3d, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+chisq_indp$stdres
+
+```
+
+*ANSWER: Our adjusted residuals may suggest if crime types were committed less or more frequently than we'd expect, because we may interpret these as indication of how many SD away values in each cell are. Some use +/- 1.96 as an indication of significant results. If so, In the previous year, we see that food-crimes appeared less frequently, and in the current year, food-crimes were comitted more frequently than expected. [Word Count: 69]*
+
+
+## Q4
+
+```{r q4fig, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# plot the figure 
+dfLong <- df %>%
+  pivot_longer(cols=c(previous,current),names_to="year",
+               values_to="price")
+dfLong$year <- factor(dfLong$year,
+                      levels=c("previous","current"))
+
+dfSum <- dfLong %>%
+  group_by(year) %>%
+  summarise(mean=mean(price),
+            sd=sd(price),
+            n=n(),
+            sdErr=sd/sqrt(n)) %>%
+  ungroup()
+
+dfLong %>%
+  ggplot(mapping=aes(y=price,x=year,colour=year)) +
+  geom_path(aes(group=names),colour="grey",
+            linewidth=0.3) +
+  geom_jitter(alpha=0.4,size=3,width=0.02,height=0) +
+  geom_errorbar(data=dfSum,width=0.15,
+                colour="black",
+                mapping=aes(y=mean,
+                            ymin = mean-sdErr,
+                            ymax = mean+sdErr)) +
+  theme_bw() +
+  theme(legend.position="none") +
+  scale_fill_brewer(palette="Set1") +
+  scale_colour_brewer(palette="Set1") +
+  labs(title="Price change over time",
+       subtitle="Each dot is one kind of food item",
+       y="Average price", x="Year")
+```
+
+**Q4a**
+
+```{r q4a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+df <- df %>%
+  mutate(diff = (df$current - df$previous))
+
+
+qqnorm(df$previous)
+qqnorm(df$current)
+qqnorm(df$diff)
+
+shapiro.test(df$previous)
+shapiro.test(df$current)
+shapiro.test(df$diff)
+
+```
+
+*ANSWER: The main assumption is that our data is normally distributed. We asssesed the datapoints through a qqnorm, before executing the Shapiro-Wilk test to ensure that data is normally distributed for the difference in scores between previous and current year (W = 0.975, p-value = 0.122). Results were not significant indicating that our data indeed is normally distributed.  [Word Count: 57]*
+
+
+**Q4b**
+
+```{r q4b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+
+mean(df$previous)
+mean(df$current)
+
+# I was just interested in looking at the mean of both years too.
+
+t.test(x = df$current, y = df$previous, paired = TRUE)
+
+cd <- cohensD(df$current, df$previous, method = "paired")
+
+print(cd)
+
+```
+
+*ANSWER: A paired samples t-test was used to analyze Super Size's question: to compare the two means for the same subject (food items) in this repeated measures design. We found t = 3.012, df = 79, p-value = 0.003 showing a significant difference in the means between the previous and current year, with a mean difference of 1.386. The test also provides a 95 percent confidence interval ranging from 0.470 to 2.301. Further, calculated effect size using Cohen's D = 0.337. This falls between small effect size ≈  0.2 and medium effect size ≈ 0.5, indicating an effect, but between small and medium. In light of the research question, this shows a statistically significant increase in food prices (outcome) from the previous year to the current year (predictor). [Word Count: 127]*
+
+
+## Q5
+
+**Q5a**
+
+```{r q5a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+dh_boxplot <- dh %>%
+  ggplot(data = dh, mapping=aes(x = interaction(inCat, exCat), y = health, fill = exCat)) +
+  geom_boxplot(alpha = 0.9, color ="black") +
+  stat_summary(fun = mean, geom = "point", shape = 15, size = 4, color = "black", alpha = 0.8) +
+  geom_jitter(aes(color = health), size = 2, alpha = 0.5, position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.9)) +
+  theme_classic() +
+  theme(panel.background = element_rect(fill = "#36454F"),
+  legend.position = "none") +
+  scale_y_continuous(breaks = seq(0,100, by = 10)) +
+  scale_x_discrete(labels = c("Poor, Low Exercise", "Poor, High Exercise","Rich, Low Exercise", "Rich, High Exercise"), guide = guide_axis (angle=45)) +
+  scale_color_gradient(
+  low = "orange",
+  high = "purple"
+  ) +
+  scale_fill_brewer(
+  palette = "Blues") +
+  labs(
+    title="Health by Income and Exercise Category",
+    y="Health Rating (0-100)",
+    x="Income and Exercise")
+
+print(dh_boxplot)
+
+```
+
+
+**Q5b**
+
+```{r q5b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+dh_aov <- aov(health ~ inCat*exCat, data = dh)
+
+print(dh_aov)
+summary(dh_aov)
+
+```
+
+*ANSWER: A two-way ANOVA was conducted to investigate the income category, exercise category and interaction between them as the predictor variables, and with health as the outcome variable. The ANOVA test shows a statistically significant main effect of income category F(1,116) = 35.47, p < .001, and a significant interaction effect between income and exercise category F(1,116) = 15.08, p < .001. In terms of our research question, this shows that income category does have a significant effect on health, and although exercise does not show a significant effect, it does show a significant interaction between income and exercise category. This can indicate that exercise has different effects depending on income. In Q5A we can see that the health ratings (median and means) between low and high exercise appear to be more extreme in the rich category. As mentioned by Hugo, diet and nutrition is important data we could use to further evaluate these effects. [Word Count: 154]*
+
+
+## Q6
+
+**Q6a**
+
+```{r q6a, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+model2 <- lm(health ~ income + exercise, data = dh)
+
+summary(model2)
+
+```
+
+*ANSWER: A linear multiple regression was conducted to investigate the effects on the outcome variable health by the predictor variables income and exercise. Our model is statistically significant F(2,117) =  10.65, p < .001, with a r-squared of 0.154, indicating that our model accounts for 15.4 % of the variance in health. We found income t(117) = 4.515, p < .001, with a slope of 0.380 suggesting that each increase in income resulted in an 0.380 increase in health. Effects of exercise were not significant t(117) = -1.049, p = .296. In light of the research question, our model suggests a strong relationship between income and health, however the role of exercise is not significant and therefore unclear, and warrants further analysis to determine the role of exercise and health. [Word Count: 129]*
+
+
+**Q6b**
+
+```{r q6b, warning=FALSE, message=FALSE, fig.width=5, fig.height=5}
+# any code goes here
+
+model2 <- lm(health ~ income + exercise + income:exercise, data = dh)
+
+summary(model2)
+
+
+```
+
+*ANSWER: (i) The interaction between exercise and income t(116) = 7.131, p < .001, indicates a statistically significant interaction effect between income and exercise on health; (ii) Our model in 6A was statistically significant F(2,117) =  10.65, p < .001, with a r-squared of 0.154. However, our current model F(3,116) = 27.08, p < .001., with a r-square of 0.412, is statically significant and explains 41.2 % of the variance. In sum, this shows that our current model, that includes interaction effects, is able to explain more of the relationship between income and exercise and it's effect on health, and therefore a better fit to our data.; (iii) All effects in our current model are statistically significant. However, the unstandarized coefficient of income changed to negative in the current model. This indicates that the isolated effect of income on health is negative, and the isolated effect of exercise on health is negative. However, when combined they show a positive effect, therefore there is also an interaction effect highlighting that they should be interpreted together. [Word Count: 172]*
+
+
+**Q6c**
+
+*ANSWER: In Q5b we found an effect of income and a interaction effect, however in Q6b we found effects from income, exercise and interaction effects. Both analysis lead to the same qualitative conclusion: that there is an effect of income and an interaction effect. But Q6b finds an effect of exercise by itself, and also captures the different effects in more detail as well as providing R-squared helping to explain variance. If the goal is simply to investigate any effect, Q5b is more than sufficient, however if the data is to be used for political decision-making we should go for the method used in Q6b. [Word Count: 104]*
+
+
+## Q7
+
+**Q7a**
+
+*ANSWER: (i) OPTION B (ii) OPTION B (iii) OPTION A *
+
+
+**Q7b**
+
+*ANSWER: (i) The chi-square statistic is a measure of our data against a theoretical prediction, where larger values mean a worse fit to the data. A value closer to zero would indicate that our data and the theoretical data is very similar. A  negative chi-square value would therefore not make any sense here.; (ii) A t-test determines if the means of two groups are significantly different, by comparing our data to a theoretically predicted mean or another frequency table. In option B the t-value is really big, but at the same time the p-value is not significant. If there was a big effect we would also expect a statstically signficant p-value.; (iii) The small F-value in option A indicates that the variable does not explain a significant amount of variance for the depedent variable, therefore a significant value of p < .001 does not make sense. Like in e.g. Q5b, we would rather expect large F-values to be stastically signficant. [Word Count: 158]*
+
+
+## Q8
+
+*ANSWER: My favorite character is probably Gladly. He suggested that everyone weighed themselves rather than fighting in Otherland. And also I like the quotes: “I think it’s just that food is very yummy and people like to eat all of the time", as well as “Well… I am hungry all of the time”.It makes me laugh, and also Gladly's got a point. Food can be quite yummy!* 
+

@@ -1,0 +1,5 @@
+"0",""
+"0","# calculate a new variable"
+"0","dMos <- gdata %>%"
+"0","  mutate(ageMos = age*12) %>%"
+"0","  select(-c(age,gender))"

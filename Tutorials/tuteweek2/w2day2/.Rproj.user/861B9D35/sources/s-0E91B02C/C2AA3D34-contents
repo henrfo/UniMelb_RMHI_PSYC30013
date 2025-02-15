@@ -1,0 +1,48 @@
+---
+title: "Gladly's Survey"
+author: "Andrew"
+date: "07/03/2022"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+## Getting started
+
+The first thing to do in our analysis is load the R
+packages that we'll use to do the work: 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+library(lsr)
+```
+
+The next step is to load the data set itself. This time, we'll assume the data is stored in a csv (comma-delimited) format. We'll generally tend to use this from now on, because it's a format that nearly any language can read. It's usually a good idea to store data in general formats because that helps with sharing, so let's get into the habit of that.
+
+```{r loaddatachunk}
+loc <- here("gladlysurvey2.csv")
+##gdata <- read_csv(file = loc)
+gdata <- read.csv(file=loc) %>% as_tibble()
+```
+
+## Creating a histogram
+
+Let's visualise our data. We'll look at much more awesome ways to visualise data later, but for now, let's just make a simple histogram of the years each person was born.
+
+```{r gdhistogram}
+hist(x=gdata$age)
+```
+
+Now make it nicer.
+
+```{r gdhistogrammod}
+hist(x=gdata$age,main="Ages of people in Gladly's Survey",xlab="Years Old",ylab="Number of people",col="darkviolet",breaks=11,xlim=c(0,12))
+```
+Now we want to view the dataset. 
+
+```{r showdatachunk}
+summary(gdata)
+```

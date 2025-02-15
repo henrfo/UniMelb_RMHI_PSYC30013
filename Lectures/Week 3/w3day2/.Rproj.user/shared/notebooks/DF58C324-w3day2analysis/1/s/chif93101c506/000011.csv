@@ -1,0 +1,3 @@
+"0","pdataWide <- pdata %>%"
+"0","  pivot_wider(names_from=""species"",values_from=""mnGoodFood"")"
+"0","pdataWide"

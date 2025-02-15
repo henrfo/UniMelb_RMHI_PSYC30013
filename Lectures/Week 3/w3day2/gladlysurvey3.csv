@@ -1,0 +1,36 @@
+name,species,ageCat,food,carrot,cake,mud,age,gender
+pink bear,bear,medium,chicken,8,6,1,10,male
+gladly,bear,medium,honey,7,10,2,8,male
+snowy,bear,medium,fish,8,7,2,7,male
+cuddly,bear,medium,meat,7,9,1,6,male
+shaggy,bear,young,honey,5,10,1,5,female
+bamboo,bear,young,bamboo,7,9,2,5,female
+panda,bear,young,meat,6,9,1,4,male
+holly,bunny,old,carrot,10,8,2,11,female
+bunny,bunny,old,carrot,10,10,1,10,female
+lfb,bunny,medium,lettuce,10,9,2,9,female
+cuddly paws,bunny,medium,NA,NA,NA,NA,9,female
+giganticky,bunny,medium,radish,6,10,1,9,male
+wiggly tail,bunny,medium,carrot,9,9,2,9,male
+pink bunny,bunny,medium,lettuce,9,7,1,7,female
+purple bunny,bunny,medium,carrot,10,8,1,7,female
+blue bunny,bunny,medium,pizza,8,7,2,7,female
+cloud,bunny,medium,carrot,10,7,2,6,male
+grey,bunny,medium,cake,9,10,1,6,female
+flopsy,bunny,young,lettuce,10,9,1,5,nb
+shadow,bunny,young,cake,9,10,2,5,female
+furry,bunny,young,radish,9,8,1,5,male
+snowflake,bunny,young,honey,10,9,1,4,male
+lovey,bunny,young,bread,8,8,1,3,female
+tweak,cat,old,fish,6,7,2,12,female
+fluffy,cat,medium,fish,7,8,2,8,female
+barky,dog,old,spaghetti,6,7,1,10,male
+black,dog,medium,meat,7,8,1,8,male
+doggie,dog,medium,chicken,8,10,1,7,male
+paw paw,dog,young,meat,6,8,1,5,male
+quackers,duck,medium,seeds,8,10,2,6,male
+foxy,fox,old,chicken,6,9,1,13,female
+froggie,frog,medium,pizza,9,9,2,7,female
+douglas,hedgehog,medium,worm,7,7,3,8,male
+monkey,monkey,medium,chicken,6,8,2,6,male
+turtle,turtle,medium,berry,8,10,1,6,female

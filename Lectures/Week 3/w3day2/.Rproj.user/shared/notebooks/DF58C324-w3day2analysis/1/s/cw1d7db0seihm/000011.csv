@@ -1,0 +1,5 @@
+"0",""
+"0","# and just for fun"
+"0","gdata %>%"
+"0","  mutate(loudName = toupper(name)) %>%"
+"0","  select(name,loudName)"

@@ -1,0 +1,146 @@
+---
+title: "Week 7 Activities"
+author: "Andrew Perfors"
+---
+
+Now that Bunny, Flopsy, and Shadow have debated abstract statistical theory, Gladly and Doggie turn their thoughts to practical matters. Most people have voted to either attack the Others (Doggie's preference) or rescue LFB and Foxy (Gladly's preference). Both of them take polls to get details on *how* people think these things should be done. Let's start with Doggie.
+
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(DescTools)
+
+# load the data
+dg <- read_csv(file=here("gladlydata.csv"))
+dd <- read_csv(file=here("doggiedata.csv"))
+dvote <- read_csv(file=here("votingoptions.csv"))
+
+# area of each of the five districts in Otherland
+area <- c(A=0.21,B=0.44,C=0.09,D=0.1,E=0.16)
+
+```
+
+
+1. Gladly polls people about where they think the rescue team should look for LFB. He asks about the five districts in Otherland (A-E). They don't know much about each district but they do know the area of each district. The `area` vector gives those areas, as a proportion of the total area of Otherland. Gladly's polling data can be found in the tibble `dg`, with the relevant information found in a column called *vote*. Both of those have been loaded automatically above. 
+
+Make a table of the voting data in `dg`, and also take a look at *area*.
+
+```{r q1}
+
+```
+
+2. Gladly is curious whether people have any idea about what they're doing or if their suggestions just reflect the area of each of the districts in question. To test this he is going to use a Goodness of Fit test. 
+
+(a) How does he know that a Goodness of Fit test is the right one? 
+
+*ANSWER: Write your answer here.*
+
+(b) What are the O and E?
+
+*ANSWER: Write your answer here.*
+
+(c) If the test statistic is high, is that *more* or *less* likely to be significant than if it is low? Why or why not?
+
+*ANSWER: Write your answer here.*
+
+3. Perform a Goodness of Fit test and report the results, including the stat block for it and what it might mean in terms of Gladly's research hypothesis.
+
+```{r q3}
+
+```
+
+*ANSWER: Write your answer here.*
+
+4. In the meantime, Doggie decides to poll people about how they think it would be best to attack the Others. He asks them to choose between three options: 1) performing a guerilla attack on important buildings in Otherland, destroying valuable infrastructure; 2) sneaking in and stealing their food; or 3) assassinating the Others leader. The results of this are in the tibble `dd` which was loaded above, with the relevant column being *vote*. Have a look at the table of the votes.
+
+```{r q4}
+
+```
+
+5. Doggie wants to compare people's responses against the null hypothesis that they are responding randomly and each option is equally probable. 
+
+(a) Use a Goodness of Fit test to test this. (Hint: One of the exercises from Day 1 Week 6 had an analogous situation).
+
+```{r q5}
+
+```
+
+(b) Report the results for this test, including the stat block for it and what it means in terms of Doggie's research hypothesis.
+
+*ANSWER: Write your answer here.*
+
+It's starting to look like nobody is agreed on *how* to do anything, which makes our friends once again revisit the question of *what* they should do.
+
+"I still think we need to rescue LFB and Foxy," maintains Gladly. "They would do the same for us, and the longer we wait the less likely we are to succeed."
+
+"We have no way of knowing where they are," Doggie argues. "It's a fool's errand. Far better to attack the Others. Not only will we get their food, we'll be able to stop them and also find out from them where LFB and Foxy are."
+
+Cuddly Paws is silent, as always, but everyone can tell that he is troubled. He is there because he misses LFB but both of these options make him uneasy, and he hates it when anyone fights. He holds up a sign: "Maybe we could vote?"
+
+"We've voted on lots of things already," groans Quackers.
+
+"But we haven't voted *specifically* between these two options only, just among people who want to do something about the Others," points out Flopsy.
+
+"True," says Gladly thoughtfully. "Okay, I'll conduct a survey asking people to choose between (a) go rescue LFB and Foxy; (b) go attack the Others; or (c) both attack and rescue."
+
+"Not fair," says Doggie. "What if people choose (a) just because you're asking and they don't want you to feel bad?"
+
+"Good point," says Gladly. "Inter-rater reliability might be a real problem here."
+
+"I know," says Quackers. "Why don't you both ask different people? Then if the distributions of votes you get are the same, you know inter-rater reliability wasn't a problem."
+
+"Good idea," says Doggie, and everyone else agrees too. Doggie and Gladly both thus ask different people this question. The results are found in the tibble `dvote`, which has been loaded for you. It contains two columns: *asker* indicates whether the person asking the question was Doggie or Gladly, and *vote* indicates which of the three options was chosen (attack, rescue, or both).
+
+6. Suppose you wanted to determine whether the distribution of votes for Doggie vs Gladly was the same. 
+
+(a) What is the statistical alternative hypothesis and the statistical null hypothesis?
+
+*ANSWER: Write your answer here.*
+
+(b) What statistical test would you do to determine this, and why?
+
+*ANSWER: Write your answer here.*
+
+7. How is the test statistic for the Test of Independence different from the test statistic for the Goodness of Fit test, and why?
+
+*ANSWER: Write your answer here.*
+
+8. Use `dvote` to make a table (call it `voteTable`) which shows how many votes of each response Gladly and Doggie each obtained.
+
+```{r q8}
+
+```
+
+9. Use a Chi-Squared Test of Independence to evaluate whether the distribution of votes was the same regardless of whether Doggie or Gladly was asking. What is the test statistic, the degrees of freedom, and the p-value? Based on the results, what do you conclude?
+
+```{r q9}
+
+```
+
+*ANSWER: Write your answer here.*
+
+10. Calculate adjusted residuals for the Chi-Squared Test of Independence you conducted in Question 9. Are there any adjusted residuals that are more extreme than +/- 1.96, following the rule of thumb described in the Day 2 Week 6 video? If so, how do you interpret them?
+
+```{r q10}
+
+```
+
+*ANSWER: Write your answer here.*
+
+11. What is the effect size, and how should you interpret it?
+
+```{r q11}
+
+```
+
+*ANSWER: Write your answer here.*
+
+12. Suppose that instead of Gladly and Doggie each asking separate people this question, they asked the same people at different times and didn't give them the option of "both"? Would you still use a Test of Independence to figure out if the distributions were the same? If so, why? If not, what would you use instead, and why?
+
+*ANSWER: Write your answer here.*
+

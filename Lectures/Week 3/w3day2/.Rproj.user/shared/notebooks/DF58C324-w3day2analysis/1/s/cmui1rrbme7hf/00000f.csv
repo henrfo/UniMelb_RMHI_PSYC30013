@@ -1,0 +1,3 @@
+"0","# keep only three columns"
+"0","gdata %>%"
+"0","  select(species,age,gender)"

@@ -1,0 +1,3 @@
+"0","ladybears <- gdata %>% "
+"0","  filter(species==""bear"" & gender==""female"") "
+"0","print(ladybears)"

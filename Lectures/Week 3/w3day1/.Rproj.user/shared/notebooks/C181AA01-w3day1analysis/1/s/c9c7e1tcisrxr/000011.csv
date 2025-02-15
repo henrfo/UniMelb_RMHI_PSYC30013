@@ -1,0 +1,6 @@
+"0","gdata %>%"
+"0","  group_by(gender) %>%"
+"0","  summarise(mnAge = mean(age),"
+"0","            sdAge = sd(age),"
+"0","            nAge = n()) %>%"
+"0","  ungroup()"

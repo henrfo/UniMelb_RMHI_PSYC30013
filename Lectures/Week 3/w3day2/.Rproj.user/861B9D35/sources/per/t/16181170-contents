@@ -1,0 +1,119 @@
+---
+title: "Week 3 Day 2 analysis"
+author: "Andy"
+---
+
+We'll begin by loading up the libraries we need, as always.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+```
+
+Loading the data.
+
+```{r loadgladlydata, include=FALSE}
+# loading the data
+loc <- here("gladlysurvey2.csv")
+gdata <- read_csv(file=loc)
+```
+
+From last time, let's use pipes and some of our dplyr functions to do some data manipulation. First, we're going to calculate the mean age for each gender using the `group_by()` and `summarise()` functions.
+
+```{r speciesagesummary, echo=FALSE}
+gdata %>%
+  group_by(species) %>%
+  summarise(mnAge = mean(age),
+            sdAge = sd(age),
+            nAge = n()) %>%
+  ungroup()
+```
+
+Now we're going to do some filtering and arranging. First the basics:
+
+```{r firstfilter}
+gdata %>% 
+  filter(species=="bear" | species=="bunny") %>%
+  arrange(gender,species)
+```
+
+```{r filterpractice}
+ladybears <- gdata %>% 
+  filter(species=="bear" & gender=="female") 
+ladybears
+```
+
+```{r simplefilter, echo=FALSE}
+females <- gdata %>%
+  filter(gender=="female")
+
+females %>%
+  group_by(species) %>%
+  summarise(mnAge = mean(age),
+            nAge = n()) %>%
+  ungroup()
+
+```
+
+Now let's bring it all together.
+
+```{r bringingtogether, echo=FALSE}
+gdata %>%
+  filter(!is.na(mud)) %>%
+  mutate(goodFood = (carrot+cake)/2)  %>%
+  group_by(gender) %>%
+  summarise(meanGoodFood = mean(goodFood),
+            meanBadFood = mean(mud)) %>%
+  ungroup()
+```
+
+Let's do some pivoting now... First, let's make ourselves a smaller dataset so we can illustrate it a bit better.
+
+```{r makedatasetforpivot}
+pdata <- gdata %>%
+  filter(!is.na(mud)) %>%
+  mutate(goodFood = (carrot+cake)/2)  %>%
+  group_by(gender,species) %>%
+  summarise(mnGoodFood = mean(goodFood)) %>%
+  ungroup() %>%
+  filter(species=="bunny" | species=="bear" | species=="dog")
+```
+
+Pivot the dataset wider
+
+```{r pivotwideexample}
+pdataWide <- pdata %>%
+  pivot_wider(names_from="species",values_from="mnGoodFood")
+```
+
+Pivot that one longer now
+
+```{r pivotlongexample}
+pdataLong <- pdataWide %>%
+  pivot_longer(cols=c(bunny,bear,dog),names_to="species",values_to="mnGoodFood")
+```
+
+Let's do it with a more complicated dataset now.
+
+```{r pivotcomplicated}
+gLongComp <- gdata %>%
+    mutate(goodFood = (carrot+cake)/2) %>%
+    select(species,gender,goodFood,mud) %>%
+    group_by(gender,species) %>%
+    summarise(meanGood = mean(goodFood,na.rm=TRUE),
+              meanBad = mean(mud,na.rm=TRUE)) %>%
+    ungroup()
+
+# make it wider
+gWideComp <- gLongComp %>% 
+    pivot_wider(names_from="species",values_from = "meanGood")
+
+# make it longer, keeping gender and meanBad
+gLongComp2 <- gWideComp %>%
+  pivot_longer(-c(gender,meanBad),names_to="species",values_to="meanGood") %>%
+  filter(!is.na(meanGood))
+
+```

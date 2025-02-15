@@ -1,0 +1,5 @@
+"0","pdataLong <- pdataWide %>%"
+"0","  pivot_longer(cols=c(bunny,bear,dog),"
+"0","               names_to=""species"","
+"0","               values_to=""mnGoodFood"")"
+"0","pdataLong"

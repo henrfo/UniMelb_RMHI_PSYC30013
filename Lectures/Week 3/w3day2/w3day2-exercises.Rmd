@@ -1,0 +1,131 @@
+---
+title: "Week 3 Day 2 Exercises"
+author: "Andrew Perfors"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+
+# loading the data
+loc <- here("gladlysurvey3.csv")
+gdata <- read_csv(file=loc)
+```
+
+
+## Day 2
+
+### Filter and arrange
+
+1. Create a new tibble called `oldies` which contains just the people who are age five or more. 
+
+```{r day2filter1}
+
+```
+
+2. Filter the `oldies` tibble so it contains just the female ones, and arrange the output by species.
+
+```{r day2filter2}
+
+```
+
+3. Instead of doing #1 and #2 as two separate pipes with the variable `oldies` created halfway through, combine them so you do it all in one long piped command. (Hint: you’ll use the & operator)
+
+```{r day2filter3}
+
+```
+
+4. Calculate the mean age for only the bears, split by gender (i.e., the mean age of the male bears and the mean age of the female bears). Hint: use the `group_by()` and `summarise()` functions as well as `filter()`.
+
+```{r day2filter4}
+
+```
+
+5. Create a tibble that shows — for bunnies only — how many bunnies preferred each food. (Hint: you’ll need to use `filter()`, `group_by()`, and `summarise()` as well as `n()`, and the variable `food`).
+
+```{r day2filter5}
+
+```
+
+6. Create a tibble called `bunnyCarrot` which shows — for bunnies only — the mean rating on the carrot question, split by gender. If you change the order of the commands, does this change things? Why or why not?
+
+```{r day2filter6}
+
+```
+
+
+### Select and mutate
+
+1. Create a new tibble called `foodTibble` which contains just the names and answers to the three food questions (carrot, mud, and cake).
+
+```{r day2select1}
+
+```
+
+2. Add a new column to `foodTibble` called `totalLiking` which is the sum of the three food questions.
+
+```{r day2select2}
+
+```
+
+3. Instead of doing #1 and #2 as two separate pipes with the variable `foodTibble` created halfway through, combine them so you do it all in one long piped command.
+
+```{r day2select3}
+
+```
+
+4. Create a new tibble called `likingTibble` which: contains just the species, gender, and the three food questions; adds a new column called `avgLiking` which is the average of the three food questions; and groups by species and calculates the average `avgLiking` by species as well as the number of people in each species. Hint: you’ll have to use most of the functions from this week, not just select and mutate.
+
+```{r day2select4}
+
+```
+
+5. Create a tibble called `nameTibble` which contains just the names and genders; adds a column called `nameLength` which uses the `nchar()` function to calculate the length of each person’s name; then groups by genders and calculates the average `nameLength` and the standard deviation of `nameLength` for each gender.
+
+```{r day2select5}
+
+```
+
+### Pivoting wider and longer
+
+1. Take `gLong` and make it wider so that each column is one of the genders, rather than one of the species. 
+
+```{r day2pivot1, warning=FALSE, message=FALSE}
+# start by defining gLong (this is done for you, you don't need to do this)
+gLong <- gdata %>%
+    mutate(goodFood = (carrot+cake)/2) %>%
+    select(species,gender,goodFood) %>%
+    group_by(gender,species) %>%
+    summarise(meanGood = mean(goodFood,na.rm=TRUE)) %>%
+    ungroup()
+gLong
+
+# now convert to wide (you do this)
+
+```
+
+2. Take your output from #1 and convert it back to long form. Get rid of any excess NAs that have appeared.
+
+```{r day2pivot2}
+
+```
+
+3. Take the original `gdata` tibble and make a new tibble called gdataLong which combines the three answers to the food rating questions (carrot, cake, and mud). The name of the column with the original column names (carrot, cake, and mud) should be called `choices` and the name of the column with the actual rating for each should be called `rating`. Keep all of the other columns in the original `gdata` tibble (i.e., keep name, species, year, food, age, and gender).
+
+```{r day2pivot3}
+
+```
+
+4. Convert `gdataLong` back to a wide-form tibble called `gdataWide`. Is `gdataWide` equivalent to `gdata`?
+
+```{r day2pivot4}
+
+```
+

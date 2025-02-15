@@ -1,0 +1,246 @@
+---
+title: "Week 11 Tutorial"
+author: "Andrew Perfors"
+---
+
+Last week we saw that, having exhaustively studied what factors affect people's willingness to work together, our friends conducted a trial intervention involving an animal exchange. People from Bunnyland went to visit and stay with people from Otherland, and vice versa. Although this did not entirely remove people's fear of the other folks, it did help a lot, and also improved everyone's knowledge of the Others. Most importantly, willingness to work together is higher than it has ever been.
+
+The next step, then, is to figure out what to *do*. 
+
+"That's easy," says Bunny. "The problem with the food situation is caused by having too many small animals in Bunnyland and too many large animals in Otherland. So what we need to do is make the exchange permanent; encourage people to move and settle across the borders."
+
+"That's all well and good," says Gladly. "But nobody will want to do that. Instead we should just encourage people to take *jobs* across the border -- people from Otherland can help us pasture our cows, and we can go over and pick their berries."
+
+Super Size frowns. "Much as I hate to disagree with a fellow bear," he says, "I don't think that will work. Nobody will want to commute that far all the time, or help a place they don't really feel is their home."
+
+"Quack!" says Quackers, nodding in agreement.
+
+"I maybe have an idea," says Foxy slowly. "As someone who isn't from Bunnyland originally myself, I know that it's really hard to want to contribute to a place that doesn't make you feel welcome."
+
+Cuddly Paws frowns and spontaneously hugs Foxy, looking at her with sadness.
+
+"It's okay, Cuddly Paws," Foxy says. "I'm starting to feel a lot more at home here. But that's because I've been a *part* of things, trying to solve our problems together, and that's made me feel wanted. So maybe we should try to figure out what we can do to make everyone feel like a part of everywhere, and also part of the solution?"
+
+Everyone is silent for a moment.
+
+"How do we do that?" asks Doggie gruffly. He is still fearful of the Others, which makes him quieter than usual, but he is clearly trying, and Gladly pats him appreciatively.
+
+"Music?" suggests Kevin. 
+
+Rainbow laughs. "Should have thought you'd suggest that," she jokes.
+
+"I'm not joking. Music is a great way to bring people together," Kevin insists.
+
+Doggie nods. "He's right. That's a good idea. It's not enough by itself though."
+
+Flopsy suggests, "But maybe we could come up with multiple ideas. I suspect that just one isn't going to be enough, because this is a hard problem and a big change is needed."
+
+Slowly, everyone nods, until Flopsy sighs loudly. "What?" LFB asks her.
+
+"I'm a little nervous deciding what to do based just on our best guesses," she says. "This matters a lot but we don't know what ideas most normal people will accept. The last thing we want to do is make people angry or afraid, and become *less* willing to do what we need to do."
+
+Shadow and Little Blue, who have been talking avidly ever since meeting, look at each other and say simultaneously, "We need data!"
+
+Everyone laughs, even Doggie.
+
+"Should've known you'd say that," says Rainbow affectionately. "What kind of data are you thinking?"
+
+"We can give people some of our top ideas and have them rate them for how much they would be willing to take part," says Shadow.
+
+"And *also* ask people how much they would support a plan with all of these ideas in it," added Little Blue. "Then we can see how much each idea contributes to the support of the plan, and thus which are most important overall."
+
+After much discussion, everyone agrees with this and settles on their top ideas. They then conduct a survey of as many people as they can in both Bunnyland and Otherland. The dataset `ds` contains the results. Each row contains the responses for one person, and it has the following columns:
+
+*person*: the person in that row
+
+*home*: whether that person lives in Bunnyland or Otherland
+
+*size*: whether that person is small, medium, or large
+
+*culture*: that person's rating on a scale of 1-100 of how much they would endorse a culture exchange between Bunnyland and Otherland, consisting of regular concerts, art shows, festivals, and school trips
+
+*move*: that person's rating on a scale of 1-100 of how much they would endorse a program that made house prices cheaper for people moving across borders
+
+*job*: that person's rating on a scale of 1-100 of how much they would endorse a program that gave job preferences and salary top-up to people willing to work in the other land
+
+*overall*: that person's rating on a scale of 1-100 of how much they would endorse a policy program that combined all of these things 
+
+
+```{r setup, include=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(lsr)
+library(car)
+library(plotly)
+
+# load the data
+d <- read_csv(file=here("policysupport.csv"))
+```
+
+Our main question is what things predict support for the *overall* policy. There are a lot of variables to look at here, so our first analyses should focus on limiting the complexity. To that end, let's begin by looking at collinearity. If any of our variables are highly collinear, we can remove some of them straightforwardly.
+
+1. The code below defines a model with *overall* as the outcome and *move*, *job*, and *culture* as predictors. We don't include any interactions because we're just interested in collinearity. Add a line to the code to check which variables (if any) are collinear. What is the result? What does this mean we should do?
+
+```{r q1}
+modelOCMJ <- lm(overall~culture+move+job,data=d)
+
+# add a line here
+
+```
+
+*ANSWER: *
+
+
+2. In order to determine which of the collinear variables we should get rid of, let's do model selection between two models that differ only in which of these they contain. Create two models: `modelOCJ` which contains *culture* and *job* as predictor variables, and `modelOCM` which contain *culture* and *move* as predictor variables. Use `AIC()` and `BIC()` to determine which variable to retain. (Extra question: why did we include *culture* in both of these models, rather than comparing models that just had one predictor variable?)
+
+```{r q2}
+
+```
+
+*ANSWER: *
+
+
+3. The above analysis suggests that we should retain the *move* variable. Now let's do another model selection to select between the following possible and interpretable models:
+
+*modelOC*: contains culture as the only predictor variable
+
+*modelOM*: contains move as the only predictor variable
+
+*modelOCM*: above, contains culture and move as predictor variables but no interaction
+
+*modelOCMi*: contains culture and move as predictor variables, with an interaction
+
+Define these models and then use AIC() and BIC() to decide which of them is best.
+
+```{r q3}
+
+```
+
+*ANSWER: *
+
+
+4. Having identified the best model, let's now check to make sure it has met the assumptions. First, check the linearity assumption. What is the result?
+
+```{r q4}
+
+```
+
+*ANSWER: *
+
+
+5. Next, check the normality assumptions. What do the results show?
+
+```{r q5}
+
+```
+
+*ANSWER: *
+
+
+6. Finally, use Cook's Distance to determine if there are any high-leverage outliers we need to be worried about using the 2k/N rule of thumb (where k is the number of coefficients, and N is your sample size). Do you see any?
+
+```{r q6}
+
+```
+
+* * * 
+
+"Okay," says Bunny slowly. "The model with *culture* and *move* as predictors, along with an interaction, is best, and *move* is highly collinear with *job*. But what does this tell us?"
+
+"For that we need to examine the model," says Shadow.
+
+"And always remember figures!" says Little Blue. She and Shadow exchange an understanding grin.
+
+"QUACK!" Quackers is still not sure what is going on but he agrees, figures are pretty.
+
+The code below runs the best-fitting model and plots the relationships (albeit not perfectly since 2D plots do not make the interaction clear). Also see the 3D plots of the model (both with and without the interaction effect) in the "week11-tutorial-plots" HTML file contained in the ZIP folder.
+
+```{r showresults}
+d %>%
+  ggplot(mapping=aes(x=move,y=overall)) +
+  geom_point(colour="darkblue",alpha=0.7,size=3) +     
+  theme_bw() +
+  geom_smooth(method="lm") +
+  labs(title = "Relationship between overall support and support for move", 
+       x="Move support (higher = more)", 
+       y="Overall support (higher = more")
+
+d %>%
+  ggplot(mapping=aes(x=culture,y=overall)) +
+  geom_point(colour="darkgreen",alpha=0.7,size=3) +     
+  theme_bw() +
+  geom_smooth(method="lm") +
+  labs(title = "Relationship between overall support and support for culture", 
+       x="Culture support (higher = more)", 
+       y="Overall support (higher = more")
+
+d %>%
+  ggplot(mapping=aes(x=culture,y=move)) +
+  geom_point(colour="darkred",alpha=0.7,size=3) +     
+  theme_bw() +
+  geom_smooth(method="lm") +
+  labs(title = "Relationship between support for move and support for culture", 
+       x="Culture support (higher = more)", 
+       y="Move support (higher = more")
+
+summary(modelOCMi)
+```
+
+
+"Oh yay!" says Bunny. "It looks like there is a reasonable amount of support for the overall policy, and it is predicted by the interaction between *move* and *culture* variables. Given the high overlap between *move* and *job*, I think that means we probably want to do all of them."
+
+"That's good," says Super Size. "But we have a bunch of other data as well, we should use it."
+
+"It would also be a really good idea to practice figuring out when to run each test," says Gladly. "I don't feel like I'm very good at that."
+
+"Me too," says Foxy.
+
+"Okay," says Shadow. "I have some ideas..."
+
+7. Suppose we wanted to see if *overall* support was predicted by *size* of animal. What test would we run? What assumptions does that test make, and how would we test those? What kind of figure would you create? How would you measure effect size? (In the interests of time we won't have you do these things; the object here is just to figure what you WOULD do).
+
+*ANSWER: *
+
+
+8. Suppose we wanted to see if similar numbers of small, medium, and large animals were found in Bunnyland and Otherland. What test would we run? What assumptions does that test make, and how would we test those? What kind of figure would you create? How would you measure effect size? (In the interests of time we won't have you do these things; the object here is just to figure what you WOULD do).
+
+*ANSWER: *
+
+
+9. Suppose we wanted to see if people from Bunnyland and Otherland answered the *culture* question the same. What test would we run? What assumptions does that test make, and how would we test those? What kind of figure would you create? How would you measure effect size? (In the interests of time we won't have you do these things; the object here is just to figure what you WOULD do).
+
+*ANSWER: *
+
+
+### EXTRA, FOR LATER
+
+Earlier we identified one potentially worrisome outlier. Here we create a new dataset called `dnew` which does not contain it and run the model selection in #3 again on the new dataset to make sure that our earlier results weren't caused by the outlier.
+
+```{r removeoutlier}
+dnew <- d
+dnew$overall[3] <- NA
+dnew$move[3] <- NA
+dnew$job[3] <- NA
+dnew$culture[3] <- NA
+
+modelOCnew <- lm(overall~culture,data=dnew)
+modelOMnew <- lm(overall~move,data=dnew)
+modelOCMnew <- lm(overall~culture+move,data=dnew)
+modelOCMinew <- lm(overall~culture*move,data=dnew)
+
+AIC(modelOCnew,modelOMnew,modelOCMnew,modelOCMinew)
+BIC(modelOCnew,modelOMnew,modelOCMnew,modelOCMinew)
+
+```
+
+The best model is once again the same but we should use `summary()` for it and interpret it rather than the one above.
+
+```{r bestmodel}
+summary(modelOCMinew)
+```
+
+We find that it is qualitatively very similar, which suggests that our results were not being driven by the high-influence point.

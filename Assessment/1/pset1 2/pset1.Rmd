@@ -1,0 +1,274 @@
+---
+title: "RMHI/ARMP Problem Set 1"
+author: 'Your name and ID goes here [Word Count: XX]'
+---
+
+Please put your answers here, following the instructions in the assignment description. Put your answers and word count tallies in the locations indicated; if none is indicated that means there is no word count for that question. Remember to knit as you go, and submit the knitted version of this on Canvas.
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+# We'll begin by loading up the libraries and data we need, as always.
+knitr::opts_chunk$set(echo = TRUE)
+
+# this deletes any variables that are in your environment
+# useful so you don't get conflicts you're unaware of
+rm(list=ls())
+
+# loading the libraries
+library(tidyverse)
+library(here)
+library(ggplot2)
+library(RColorBrewer)
+
+d <- read_csv(file=here("talentshow.csv"))
+dd <- read_csv(file=here("talentshow_duration.csv"))
+
+# these tibbles may be useful in some of the questions
+d3b <- read_csv(file=here("d3b.csv"))
+d6 <- read_csv(file=here("d6.csv"))
+df <- read_csv(file=here("dfullMine.csv"))
+
+# makes into factors
+d$name <- as.factor(d$name)
+dd$name <- as.factor(dd$name)
+d$kind <- as.factor(d$kind)
+
+# reorders so fun comes before competitive, makes figure nicer
+d$level <- factor(d$level, levels=c("fun","competitive"))
+dd$level <- factor(dd$level, levels=c("fun","competitive"))
+```
+
+## Q1 
+
+**Q1a**
+
+```{r q1a, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q1b**
+
+```{r q1b, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+*ANSWER: The most common talent was ______, with ____ performances.*
+
+
+**Q1c** 
+
+```{r q1c, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+
+## Q2 
+
+**Q2a**
+
+```{r q2a, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q2b**
+
+```{r q2b, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q2c**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+**Q2d**
+
+```{r q2d, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+
+## Q3
+
+**Q3a**
+
+```{r q3a, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q3b**
+
+```{r q3b, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q3c**
+
+```{r q3c, warning=FALSE, message=FALSE}
+# optional code here
+
+```
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+**Q3d**
+
+```{r q3d, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+*ANSWER: The names of the individuals who broke Rule 1 (i.e., that everybody needs to participate in both fun and competitive levels) are ________. The names of the individuals who broke Rule 2 (i.e., that everybody must to do different kinds of talent at the fun and competitive levels) are ________.*
+
+
+## Q4
+
+**Q4a**
+
+```{r q4a, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q4b**
+
+```{r q4b, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q4c**
+
+```{r q4c, warning=FALSE, message=FALSE}
+# This code has been given to you, you just need to run it
+dc <- cbind(d,dd)
+head(dc)
+```
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q5
+
+**Q5a**
+
+```{r q5a, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q5b** 
+
+```{r q5b, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q5c**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q6
+
+**Q6a**
+
+```{r q6a, fig.width=7, fig.height=4.5, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q6b**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q7
+
+**Q7a**
+
+```{r q7a, fig.width=8, fig.height=6, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+**Q7b**
+
+*ANSWER: (1) Describe one new thing here. (2) Describe other new thing here. [Word count: XX]*
+
+
+**Q7c**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q8
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q9
+
+```{r q9codeprovided, warning=FALSE, message=FALSE}
+# get the lowest score
+lowest <- min(d$audience,na.rm=TRUE)
+lowest
+
+# get the highest score
+highest <- max(d$audience,na.rm=TRUE)
+highest
+```
+
+**Q9a**
+
+```{r q9a, warning=FALSE, message=FALSE}
+# Put your code here
+
+```
+
+*ANSWER: The probability of the lowest score is ____ and the probability of the highest score is ____.*
+
+
+**Q9b** 
+
+```{r q9b, warning=FALSE, message=FALSE}
+# this code is given
+df <- df %>%
+  mutate(prob = pnorm(duration,mean=6.5,sd=3))
+
+# you may add additional code here if it's useful to answer the question
+
+```
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+**Q9c**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q10
+
+**Q10a**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+**Q10b**
+
+*ANSWER: Put your answer here. [Word count: XX]* 
+
+
+## Q11
+
+*ANSWER: Put your answer here. Does not contribute to your word count limit.*
+

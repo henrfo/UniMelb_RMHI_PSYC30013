@@ -1,0 +1,15 @@
+here("bunnysurvey.csv")
+library(here)
+here("bunnysurvey.csv")
+location <- here("bunnysurvey.csv")
+location
+library(tidyverse)
+data <- read.csv(file=loc)
+library(tidyverse)
+read_csv(location)
+data <- read_csv(location)
+write_csv(data, file = "nydata.csv")
+data <- read_csv(file=location)
+data
+install.packages("rmarkdown")
+library(rmarkdown)

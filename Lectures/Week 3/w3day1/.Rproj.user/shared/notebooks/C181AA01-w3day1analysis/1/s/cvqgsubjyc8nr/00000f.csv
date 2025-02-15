@@ -1,0 +1,6 @@
+"0","nestResult <- ds %>%"
+"0","    group_by(gender,time) %>%"
+"0","    summarise(meanJoy = mean(joy),"
+"0","              n = n()) %>%"
+"0","    ungroup()"
+"0","nestResult"

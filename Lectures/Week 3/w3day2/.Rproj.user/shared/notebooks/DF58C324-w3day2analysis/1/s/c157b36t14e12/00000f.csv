@@ -1,0 +1,8 @@
+"0","pdata <- gdata %>%"
+"0","  filter(!is.na(mud)) %>%"
+"0","  mutate(goodFood = (carrot+cake)/2)  %>%"
+"0","  group_by(gender,species) %>%"
+"0","  summarise(mnGoodFood = mean(goodFood)) %>%"
+"0","  ungroup() %>%"
+"0","  filter(species==""bunny"" | species==""bear"" | species==""dog"")"
+"2","`summarise()` has grouped output by 'gender'. You can override using the `.groups` argument."

@@ -1,0 +1,239 @@
+---
+title: "Week 3 Day 2 analysis"
+author: "Andy"
+---
+
+We'll begin by loading up the libraries we need, as always.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# loading the libraries
+library(tidyverse)
+library(here)
+```
+
+Loading the data.
+
+```{r loadgladlydata, include=FALSE}
+# loading the data
+gdata <- read_csv(file=here("gladlysurvey3.csv"))
+ds <- read_csv(file=here("simpleexample.csv"))
+```
+
+From last time, let's use pipes and some of our dplyr functions to do some data manipulation. First, we're going to calculate the mean age for each gender using the `group_by()` and `summarise()` functions.
+
+```{r speciesagesummary, echo=FALSE}
+gdata %>%
+  group_by(species) %>%
+  summarise(mnAge = mean(age),
+            sdAge = sd(age),
+            nAge = n()) %>%
+  ungroup()
+```
+# Filter and arrange
+
+Now we're going to do some filtering and arranging. First the basics:
+
+```{r firstfilter}
+gdata %>% 
+  filter(species=="bear") %>% 
+  arrange(gender)
+```
+
+This will now include both bears and bunnies. (Think of this as saying "hey, keep a row if the species is "bear" or the species is "bunny")
+
+```{r nextfilter}
+gdata %>% 
+  filter(species=="bear" | species=="bunny") %>% 
+  arrange(species,gender)
+```
+
+Now let's filter on multiple columns at once.
+
+```{r filterpractice}
+ladybears <- gdata %>% 
+  filter(species=="bear" & gender=="female") 
+ladybears
+```
+
+Assign the output to a variable and then do stuff to that one!
+
+
+```{r simplefilter, echo=FALSE}
+# create a tibble called fOnly that contains only females
+fOnly <- gdata %>%
+  filter(gender=="female")
+
+# calculate the mean age of all species in that tibble (of just females)
+fOnly %>%
+  group_by(species) %>%
+  summarise(mnAge = mean(age),
+            nAge = n()) %>%
+  ungroup()
+```
+
+
+### Simple dataset
+
+And on our simple dataset:
+
+```{r firstfiltersimple}
+filterEx <- ds %>% 
+   filter(gender=="female") %>%
+   arrange(desc(happy))
+filterEx
+```
+
+How about some other possibilities?
+
+```{r firstfiltersimple2}
+# using &
+ds %>% 
+   filter(gender=="male" & joy>3) 
+
+# using |
+ds %>% 
+  filter(person=="bunny" | person=="gladly")
+
+# including with NA for anger
+ds %>%
+  filter(is.na(anger))
+
+# including without NA for anger
+ds %>%
+  filter(!is.na(anger))
+
+# including without NA anywhere
+ds %>%
+  na.omit()
+```
+
+# Select and mutate
+
+```{r selectmutate}
+# keep only three columns
+gdata %>%
+  select(species,age,gender)
+
+# calculate a new variable
+dMos <- gdata %>%
+  mutate(ageMos = age*12) %>%
+  select(-c(age,gender))
+```
+
+A bit more complicated now.
+
+```{r selectmutate2}
+# find the average of carrot and cake
+gdata %>%
+  mutate(goodFood = (carrot+cake)/2) %>%
+  select(-c(carrot,cake))
+
+# and just for fun
+gdata %>%
+  mutate(loudName = toupper(name)) %>%
+  select(name,loudName)
+```
+
+```{r simpleselectmutateones}
+# remove two columns - two ways to do this
+ds %>%
+  select(person,time,happy,joy)
+ds %>%
+  select(-c(gender,anger))
+
+# mutate to create a goodfood variable
+ds %>%
+  mutate(good = happy+joy,
+         isPos = good>9)
+```
+
+Now let's bring it all together.
+
+```{r bringingtogether, echo=FALSE}
+gdata %>%
+  filter(!is.na(mud)) %>%
+  mutate(goodFood = (carrot+cake)/2)  %>%
+  group_by(gender) %>%
+  summarise(meanGoodFood = mean(goodFood),
+            meanBadFood = mean(mud)) %>%
+  ungroup()
+```
+
+# Pivoting
+
+Let's do some pivoting now... First, let's make ourselves a smaller dataset so we can illustrate it a bit better.
+
+```{r makedatasetforpivot}
+pdata <- gdata %>%
+  filter(!is.na(mud)) %>%
+  mutate(goodFood = (carrot+cake)/2)  %>%
+  group_by(gender,species) %>%
+  summarise(mnGoodFood = mean(goodFood)) %>%
+  ungroup() %>%
+  filter(species=="bunny" | species=="bear" | species=="dog")
+```
+
+Pivot the dataset wider
+
+```{r pivotwideexample}
+pdataWide <- pdata %>%
+  pivot_wider(names_from="species",values_from="mnGoodFood")
+pdataWide
+```
+
+Pivot that one longer now
+
+```{r pivotlongexample}
+pdataLong <- pdataWide %>%
+  pivot_longer(cols=c(bunny,bear,dog),
+               names_to="species",
+               values_to="mnGoodFood")
+pdataLong
+```
+
+Let's do it with a more complicated dataset now.
+
+```{r pivotcomplicated}
+gLongComp <- gdata %>%
+    mutate(goodFood = (carrot+cake)/2) %>%
+    select(species,gender,goodFood,mud) %>%
+    group_by(gender,species) %>%
+    summarise(meanGood = mean(goodFood,na.rm=TRUE),
+              meanBad = mean(mud,na.rm=TRUE)) %>%
+    ungroup()
+
+# make it wider
+gWideComp <- gLongComp %>% 
+    pivot_wider(names_from="species",values_from = "meanGood")
+
+# make it longer, keeping gender and meanBad
+gLongComp2 <- gWideComp %>%
+  pivot_longer(-c(gender,meanBad),names_to="species",values_to="meanGood") %>%
+  filter(!is.na(meanGood))
+
+```
+
+### Simple dataset
+
+```{r simplepivotds}
+# first remove happy and joy, then pivot wide
+ds %>%
+  select(-c(happy,joy)) %>% 
+  pivot_wider(names_from="time",values_from="anger")
+
+# now do the same thing removing only joy
+ds %>%
+  select(-c(joy)) %>% 
+  pivot_wider(names_from="time",values_from="anger")
+```
+
+Pivot longer example
+
+
+```{r simplepivotlongerds}
+ds %>%
+  pivot_longer(cols=c(happy,anger,joy),
+         names_to="emotion",values_to="rating") 
+```
